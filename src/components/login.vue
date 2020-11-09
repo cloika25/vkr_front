@@ -35,6 +35,15 @@ name: "login",
 
   },
   methods: {
+    close_comment(){
+      var form_reg = document.getElementById("comment");
+      form_reg.hidden = true;
+    },
+    show_comment(text){
+      var form_reg = document.getElementById("comment");
+      form_reg.hidden = false;
+      form_reg.innerText = text;
+    },
     authorize_user(){
       let body = {
         login: this.login,
@@ -42,11 +51,11 @@ name: "login",
       }
       axios.post('http://127.0.0.1:8000/api/login', body)
           .then( response => {
-            this.show_comment(response.data);
-            console.log(response.data);
+            console.log(response);
+            this.$store.commit('auth_user', response.data.username)
           })
           .catch(error =>{
-            console.log(error.data)
+            this.show_comment(error.data)
           })
     }
   },
