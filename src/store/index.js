@@ -26,6 +26,15 @@ export default new Vuex.Store({
                 .then( Response =>{
                     commit('ALL_EVENTS', Response.data);
                 })
+        },
+        createEvent({commit}, body, nextPage = 'my_events'){
+            axios.post(base_url + '/create_event', body)
+                .then(
+                    this.$router.push(nextPage)
+                )
+                .catch(error =>{
+                    console.log(error)
+                })
         }
     },
     getters: {

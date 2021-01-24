@@ -1,5 +1,5 @@
 <template>
-  <div сlass="event-form">
+  <div>
     <b-navbar class="page-header">
       <b-navbar-brand>
         Создание нового мероприятия
@@ -32,8 +32,6 @@
 
 <script>
 
-import {base_url} from "@/config";
-import axios from 'axios';
 export default {
     name: "eventForm",
     components: {
@@ -55,13 +53,7 @@ export default {
           DateStart: this.date_start,
           DateClose: this.date_close,
         }
-        axios.post(base_url + '/create_event', body)
-            .then(
-                this.$router.push('my_events')
-            )
-            .catch(error =>{
-                console.log(error)
-            })
+        this.$store.dispatch('createEvent', body)
       },
     },
     created() {
