@@ -4,7 +4,7 @@
 
 <script>
 export default {
-name: "page_footer",
+name: "pageFooter",
   data(){
     return {
 

@@ -4,7 +4,7 @@
 
 <script>
 export default {
-name: "main_page",
+name: "mainPage",
   created(){
     console.log("hello? ")
   }

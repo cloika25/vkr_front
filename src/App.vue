@@ -1,17 +1,14 @@
 <template>
   <div id="app">
-<!--    <img alt="Vue logo" src="./assets/logo.png">-->
-    <Page_header></Page_header>
-    <router-view></router-view>
-    <Page_footer></Page_footer>
+    <Page_header />
+    <router-view class="main-wrap" />
+    <Page_footer />
   </div>
 </template>
 
 <script>
-
-import Page_header from "@/components/page_header";
-import Page_footer from "@/components/page_footer";
-import "@/css/app.css";
+import Page_header from "@/components/pageHeader";
+import Page_footer from "@/components/pageFooter";
 export default {
   name: 'App',
   components: {
@@ -27,5 +24,8 @@ export default {
   color: #2c3e50;
   height: 100%;
 }
-
+.main-wrap{
+  margin-left: 10%;
+  margin-right: 10%;
+}
 </style>

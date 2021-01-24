@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import main_page from "@/components/main_page";
+import main_page from "@/components/mainPage";
 import registration from "@/components/registration";
 import login from "@/components/login";
+import eventsPage from "@/components/eventsPage";
+import eventForm from "@/components/eventForm";
 
 Vue.use(Router)
 
@@ -25,8 +27,18 @@ export default new Router({
           component: login,
         },
         {
-            path: '*',
-            redirect: '/'
+            path: '/my_events',
+            name: 'events',
+            component: eventsPage,
         },
+        {
+            path: '/createEvent',
+            name: 'createEvent',
+            component: eventForm,
+        }
+        // {
+        //     path: '*',
+        //     redirect: '/'
+        // },
     ]
 })

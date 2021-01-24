@@ -21,3 +21,4 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+/bootstrap-5.0.0-beta1-dist/

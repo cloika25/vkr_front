@@ -7,7 +7,7 @@
       </label>
       <label class="auth row">
         <span class="field_name">Password</span>
-        <input class="field_input" v-model="password">
+        <input class="field_input" type="password" v-model="password">
       </label>
       <label id="comment" hidden>
       </label>
@@ -51,8 +51,10 @@ name: "login",
       }
       axios.post('http://127.0.0.1:8000/api/login', body)
           .then( response => {
-            console.log(response);
+            console.log(response)
             this.$store.commit('auth_user', response.data.username)
+            this.show_comment(response.data.username)
+            this.$router.push('/')
           })
           .catch(error =>{
             this.show_comment(error.data)
