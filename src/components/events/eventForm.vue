@@ -54,6 +54,11 @@ export default {
           DateClose: this.date_close,
         }
         this.$store.dispatch('createEvent', body)
+            .then(()=>{
+                this.$router.push('my_events')
+            }).catch((e)=>{
+                console.log(e)
+        })
       },
     },
     created() {

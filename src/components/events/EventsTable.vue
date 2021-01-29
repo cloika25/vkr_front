@@ -19,9 +19,6 @@
 </template>
 <script>
 
-import axios from "axios";
-import {base_url} from "@/config";
-
 export default {
     name: "EventsTable",
     components: {},
@@ -41,13 +38,15 @@ export default {
     },
     methods: {
         removeEvent(id){
-            axios.post(base_url + '/remove_event', {id: id} )
-                .then(
-                    this.$store.dispatch('getAllEvents')
-                )
-                .catch(error =>{
-                    console.log(error)
-                })
+           this.$store.dispatch('removeEvent', id)
+               .then(() =>
+                   {setTimeout(() => {
+                       this.$store.dispatch('getAllEvents')}
+                       , 1000)}
+               )
+               .catch(error =>{
+                   console.log(error)
+               })
         },
         editEvent(id){
             console.log(id);

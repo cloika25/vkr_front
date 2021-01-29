@@ -6,7 +6,6 @@
 export default {
 name: "mainPage",
   created(){
-    console.log("hello? ")
   }
 }
 </script>

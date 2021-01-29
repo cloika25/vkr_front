@@ -16,25 +16,37 @@ export default new Vuex.Store({
             state.isAuth = true;
             state.username = username;
         },
+        SET_IN_SESSION_STORAGE(state){
+            sessionStorage.setItem('username_fqw', state.username);
+        },
         ALL_EVENTS(state, value){
             state.events = value
-        }
+        },
     },
     actions:{
         getAllEvents({commit}){
             axios.get(base_url + '/events')
                 .then( Response =>{
                     commit('ALL_EVENTS', Response.data);
+                    commit('SAVE_IN_SESSION_STORAGE')
                 })
         },
-        createEvent(body, nextPage = 'my_events'){
-            axios.post(base_url + '/create_event', body)
-                .then(
-                    this.$router.push(nextPage)
-                )
-                .catch(error =>{
-                    console.log(error)
-                })
+        getUsernameFromStorage({commit}){
+            var username = sessionStorage.getItem('username_fqw');
+            if (username){
+                commit('auth_user', username)
+                return true
+            }else{
+                return false
+            }
+        },
+        createEvent({commit}, body) { // eslint-disable-line
+            return axios.post(base_url + '/create_event', body)
+        },
+
+        removeEvent({commit}, id){ // eslint-disable-line
+            return axios.post(base_url + '/remove_event', {id: id} )
+
         }
     },
     getters: {

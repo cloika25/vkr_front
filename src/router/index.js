@@ -4,7 +4,8 @@ import main_page from "@/components/mainPage";
 import registration from "@/components/registration";
 import login from "@/components/login";
 import eventsPage from "@/components/eventsPage";
-import eventForm from "@/components/eventForm";
+import eventForm from "@/components/events/eventForm";
+import eventEdit from "@/components/events/eventEdit";
 
 Vue.use(Router)
 
@@ -35,6 +36,11 @@ export default new Router({
             path: '/createEvent',
             name: 'createEvent',
             component: eventForm,
+        },
+        {
+            path: '/eventEdit',
+            name: 'eventEdit',
+            component: eventEdit,
         }
         // {
         //     path: '*',
