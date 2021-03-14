@@ -13,19 +13,16 @@
         <span class="field_name">Repeat password</span>
         <input class="field_input" v-model="confirm_password">
       </label>
-      <label id="comment" hidden>
-      </label>
     </div>
     <div class="reg_form">
       <div class="registration row reg_button" @click="register_new_user">
-        <span>push me</span>
+        <span>register</span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
 export default {
 name: "registration",
   data(){
@@ -41,41 +38,18 @@ name: "registration",
           return false
         }
         else{
-          if( this.password === this.confirm_password){
-            return true
-          }
-          else{
-            return false
-          }
+          return this.password === this.confirm_password;
         }
-
     }
   },
   methods: {
-    close_comment(){
-      var form_reg = document.getElementById("comment");
-      form_reg.hidden = true;
-    },
-    show_comment(text){
-      var form_reg = document.getElementById("comment");
-      form_reg.hidden = false;
-      form_reg.innerText = text;
-    },
     register_new_user(){
-      this.close_comment()
       if(this.isValid){
-        let body = {
-          login: this.login,
-          password: this.password
-        }
-        axios.post('http://127.0.0.1:8000/api/registration', body)
-        .then( response => {
-          this.show_comment(response.data);
-          console.log(response.data);
-        })
-        .catch(error =>{
-          console.log(error.data)
-        })
+        this.$store.dispatch('registration',
+            {
+                username: this.login,
+                password: this.password
+            })
       }
     }
   }

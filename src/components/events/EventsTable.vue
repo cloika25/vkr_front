@@ -49,7 +49,7 @@ export default {
                })
         },
         editEvent(id){
-            console.log(id);
+            this.$router.push({name: "eventEdit", params: {id: id}})
         }
     },
     created() {

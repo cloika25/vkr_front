@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import axios from "axios";
-import {base_url} from "@/config";
+import router from "@/router/index"
+import getResourses from "@/js/axiosWrapper";
 
 Vue.use(Vuex)
 
@@ -9,28 +9,106 @@ export default new Vuex.Store({
     state: {
         isAuth: false,
         username: '',
+        email: '',
         events: [],
+        token: '',
     },
     mutations: {
         auth_user(state, username){
             state.isAuth = true;
             state.username = username;
         },
-        SET_IN_SESSION_STORAGE(state){
-            sessionStorage.setItem('username_fqw', state.username);
+        SET_ACCOUNT(state, body){
+            state.username = body.username
+            state.email = body.email
+        },
+        CLEAR_TOKEN(state){
+            state.token = ''
+        },
+        SAVE_IN_SESSION_STORAGE(state, auth_token){
+            state.token = auth_token;
+            sessionStorage.setItem('auth_token_fqw', auth_token);
+        },
+        GET_SESSION_STORAGE(state){
+            state.token = sessionStorage.getItem('auth_token_fqw')
         },
         ALL_EVENTS(state, value){
             state.events = value
         },
     },
     actions:{
+        // ------ CRUD functional ------
+        createEvent({commit}, body) { // eslint-disable-line
+            return getResourses('POST', 'api/create_event', body)
+        },
+
+        removeEvent({commit}, id){ // eslint-disable-line
+            return getResourses('POST', 'api/remove_event', {id: id})
+        },
+
+        updateEvent({commit}, id, body){ // eslint-disable-line
+            return getResourses('POST', 'api/update_event', body)
+        },
+
         getAllEvents({commit}){
-            axios.get(base_url + '/events')
+            getResourses('GET', 'api/events')
                 .then( Response =>{
                     commit('ALL_EVENTS', Response.data);
                     commit('SAVE_IN_SESSION_STORAGE')
                 })
+                .catch(()=>{
+                        Vue.$toast.error('Произошла ошибка при загрузке мероприятий')
+                    }
+                )
         },
+
+        // ------ CRUD functional END------
+        registration({commit}, data){
+            let body = {
+                username: data.username,
+                password: data.password
+            }
+            getResourses('POST','auth/users/', body)
+                .then((response)=>{
+                    commit('SET_ACCOUNT', response.data)
+                })
+                .catch((error)=>{
+                    console.log(error.response)
+                    if (error.response.data.username != undefined){
+                        Vue.$toast.error(error.response.data.username[0]);
+                    }else{
+                        Vue.$toast.error(error.response.data.password[0]);
+                    }
+                })
+        },
+
+        login({commit, dispatch}, data){
+            commit('CLEAR_TOKEN');
+            getResourses('POST', 'auth/token/login', data)
+                .then((response)=>{
+                    console.log('will try')
+                    commit('SAVE_IN_SESSION_STORAGE', response.data.auth_token);
+                    dispatch('account');
+                    router.push({name: "main_page"})
+                })
+                .catch((error)=>{
+                    console.log(error)
+                    Vue.$toast.error()
+                })
+        },
+
+        // logout({commit}){
+        //     getResourses('')
+        // },
+
+        account({commit}){ // eslint-disable-line
+            getResourses('GET', 'auth/users/me/')
+                .then((account)=>{
+                    let body = account.data
+                    commit('SET_ACCOUNT', body)
+                })
+        },
+
         getUsernameFromStorage({commit}){
             var username = sessionStorage.getItem('username_fqw');
             if (username){
@@ -40,14 +118,10 @@ export default new Vuex.Store({
                 return false
             }
         },
-        createEvent({commit}, body) { // eslint-disable-line
-            return axios.post(base_url + '/create_event', body)
+
+        getEvent({commit}, id){ // eslint-disable-line
+            return getResourses('POST', 'api/event', {id: id})
         },
-
-        removeEvent({commit}, id){ // eslint-disable-line
-            return axios.post(base_url + '/remove_event', {id: id} )
-
-        }
     },
     getters: {
     }

@@ -38,7 +38,7 @@ export default new Router({
             component: eventForm,
         },
         {
-            path: '/eventEdit',
+            path: '/eventEdit/:id',
             name: 'eventEdit',
             component: eventEdit,
         }

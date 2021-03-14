@@ -48,3 +48,8 @@
     padding: 5px;
     justify-content: start;
 }
+
+.v-toast__item{
+    opacity: 0.8 !important;
+    animation-duration: 50ms !important;
+}

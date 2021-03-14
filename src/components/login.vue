@@ -21,7 +21,6 @@
 </template>
 
 <script>
-import axios from "axios";
 
 export default {
 name: "login",
@@ -46,19 +45,10 @@ name: "login",
     },
     authorize_user(){
       let body = {
-        login: this.login,
+        username: this.login,
         password: this.password
       }
-      axios.post('http://127.0.0.1:8000/api/login', body)
-          .then( response => {
-            console.log(response)
-            this.$store.commit('auth_user', response.data.username)
-            this.show_comment(response.data.username)
-            this.$router.push('/')
-          })
-          .catch(error =>{
-            this.show_comment(error.data)
-          })
+      this.$store.dispatch('login', body)
     }
   },
 }
