@@ -29,7 +29,7 @@
           </div>
       </b-form-group>
       <b-form-group>
-        <b-button @click="createEvent()">Кликни меня </b-button>
+        <b-button @click="createEvent()">Создать мероприятие</b-button>
       </b-form-group>
     </b-form>
   </div>

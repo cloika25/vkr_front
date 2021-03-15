@@ -22,7 +22,7 @@
 import EventsTable from "@/components/events/EventsTable";
 
 export default {
-    name: "evetns",
+    name: "events",
     components: {EventsTable},
   data(){
         return {

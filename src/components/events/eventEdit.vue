@@ -27,7 +27,7 @@
                 </div>
             </b-form-group>
             <b-form-group>
-                <b-button @click="createEvent()">Кликни меня </b-button>
+                <b-button @click="updateEvent()">Сохранить изменения</b-button>
             </b-form-group>
         </b-form>
     </div>
@@ -58,7 +58,18 @@ export default {
                 .then( response =>{
                     this.event = response.data[0];
                 })
-        }
+        },
+        updateEvent(){
+            let body = Object.assign({}, this.event);
+            this.$store.dispatch('updateEvent', this.eventId, body)
+                .then( (response) => {
+                    console.log(response.data)
+                })
+                .catch((error)=>{
+                    console.log(error.response);
+                    this.$toast.error(error.response);
+                })
+        },
     },
     created() {
         this.getEvent()

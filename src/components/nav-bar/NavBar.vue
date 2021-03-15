@@ -3,7 +3,18 @@
         <div class="loyout_cell">
 
             <div v-if="username != ''" class="cell">
-                {{username}}
+                <nav-bar-item
+                    class="link username"
+                    :name = username
+                />
+
+                <div @click="logout()">
+                    <nav-bar-item
+                        class="link"
+                        name="Выйти"
+                        @click_link="logout"
+                    />
+                </div>
             </div>
             <div v-else class="cell">
                 <nav-bar-item
@@ -49,7 +60,9 @@ export default {
         }
     },
     methods: {
-    
+        logout(){
+            this.$store.dispatch('logout');
+        }
     },
     created() {
     }

@@ -12,8 +12,8 @@ export default {
         },
         link:{
             type: String,
-            default: '#',
-        }
+            default: '',
+        },
     },
     data(){
         return {
@@ -24,7 +24,7 @@ export default {
     
     },
     methods: {
-    
+
     },
     created() {
     }

@@ -14,16 +14,18 @@ export default new Vuex.Store({
         token: '',
     },
     mutations: {
-        auth_user(state, username){
-            state.isAuth = true;
-            state.username = username;
-        },
         SET_ACCOUNT(state, body){
-            state.username = body.username
-            state.email = body.email
+            state.isAuth = true;
+            state.username = body.username;
+            state.email = body.email;
         },
         CLEAR_TOKEN(state){
-            state.token = ''
+            state.token = '';
+        },
+        CLEAR_ACCOUNT(state){
+            state.isAuth = false;
+            state.username = '';
+            state.email = '';
         },
         SAVE_IN_SESSION_STORAGE(state, auth_token){
             state.token = auth_token;
@@ -54,7 +56,6 @@ export default new Vuex.Store({
             getResourses('GET', 'api/events')
                 .then( Response =>{
                     commit('ALL_EVENTS', Response.data);
-                    commit('SAVE_IN_SESSION_STORAGE')
                 })
                 .catch(()=>{
                         Vue.$toast.error('Произошла ошибка при загрузке мероприятий')
@@ -86,7 +87,6 @@ export default new Vuex.Store({
             commit('CLEAR_TOKEN');
             getResourses('POST', 'auth/token/login', data)
                 .then((response)=>{
-                    console.log('will try')
                     commit('SAVE_IN_SESSION_STORAGE', response.data.auth_token);
                     dispatch('account');
                     router.push({name: "main_page"})
@@ -97,9 +97,11 @@ export default new Vuex.Store({
                 })
         },
 
-        // logout({commit}){
-        //     getResourses('')
-        // },
+        logout({commit}){
+            getResourses('POST', 'auth/token/logout/', this.state.username)
+            commit('CLEAR_ACCOUNT')
+            commit('CLEAR_TOKEN')
+        },
 
         account({commit}){ // eslint-disable-line
             getResourses('GET', 'auth/users/me/')
