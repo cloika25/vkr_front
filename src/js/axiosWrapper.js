@@ -8,6 +8,7 @@ function getResourses(method = 'GET', url = '', config = {}){
         method: method,
         data: config,
     }
+    // console.log(url, store.state.token)
     if (store.state.token != ''){
         configuration['headers'] = {'Authorization': 'Token ' + store.state.token};
     }

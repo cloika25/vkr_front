@@ -6,7 +6,7 @@
             :fields="fields"
             :items="events"
         >
-            <template #cell(actions)="row">
+            <template #cell(actions)="row" v-if="editable">
                 <b-button @click="editEvent(row.item.id)">
                     редактировать
                 </b-button>
@@ -26,11 +26,15 @@ export default {
         events:{
             type: Array,
             default: () => [],
-        }
+        },
+        editable:{
+            type: Boolean,
+            default: false,
+        },
     },
     data(){
         return {
-            fields: ["FullName", "DateStart", "DateClose", "Actions"]
+            fields: [],
         }
     },
     computed: {
@@ -53,6 +57,10 @@ export default {
         }
     },
     created() {
+        this.fields = ["FullName", "DateStart", "DateClose"]
+        if(this.editable){
+            this.fields.push("Actions")
+        }
     }
 }
 

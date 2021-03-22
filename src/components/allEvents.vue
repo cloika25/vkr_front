@@ -2,17 +2,13 @@
   <div>
     <b-navbar >
       <b-navbar-brand class="Title">
-        Мои мероприятия
+        Мероприятия
       </b-navbar-brand>
-        <b-navbar-nav>
-            <b-button @click="addEvent()">
-                Добавить новое мероприятие
-            </b-button>
-        </b-navbar-nav>
     </b-navbar>
     <div class="page-body all-events">
         <events-table
             :events="events"
+            :editable="false"
         />
     </div>
   </div>
@@ -34,9 +30,7 @@ export default {
         }
     },
     methods: {
-        addEvent(){
-            this.$router.push('createEvent');
-        }
+
     },
     created() {
       this.$store.dispatch('getAllEvents');

@@ -33,6 +33,10 @@
     margin-right: 10px;
 }
 
+.link:hover{
+    color: white;
+}
+
 .username:hover{
     color:white;
     text-decoration: none;
@@ -57,4 +61,8 @@
 .v-toast__item{
     opacity: 0.8 !important;
     animation-duration: 50ms !important;
+}
+
+.navbar{
+    background-color: lightgray;
 }

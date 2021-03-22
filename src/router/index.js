@@ -3,11 +3,24 @@ import Router from 'vue-router'
 import main_page from "@/components/mainPage";
 import registration from "@/components/registration";
 import login from "@/components/login";
-import eventsPage from "@/components/eventsPage";
+import cabinet from "@/components/cabinet"
 import eventForm from "@/components/events/eventForm";
 import eventEdit from "@/components/events/eventEdit";
+import allEvents from "@/components/allEvents";
+import myEvents from "@/components/myEvents";
+import personalDataEdit from "@/components/cabinet/personalDataEdit";
 
 Vue.use(Router)
+
+// async function authGuard(from, to, next){
+//     if (store.state.loggedIn == 'true' || store.state.loggedIn == true) {
+//         next();
+//     } else {
+//         window.localStorage.clear();
+//         next({ name: 'login' });
+//     }
+// }
+
 
 export default new Router({
     mode: 'history',
@@ -15,6 +28,7 @@ export default new Router({
         {
             path: '/',
             name: 'main_page',
+            // beforeEnter: authGuard,
             component: main_page,
         },
         {
@@ -28,9 +42,9 @@ export default new Router({
           component: login,
         },
         {
-            path: '/my_events',
+            path: '/all_events',
             name: 'events',
-            component: eventsPage,
+            component: allEvents,
         },
         {
             path: '/createEvent',
@@ -41,7 +55,22 @@ export default new Router({
             path: '/eventEdit/:id',
             name: 'eventEdit',
             component: eventEdit,
-        }
+        },
+        {
+            path: '/my_events',
+            name: 'myEvents',
+            component: myEvents,
+        },
+        {
+            path: '/cabinet',
+            name: 'cabinet',
+            component: cabinet,
+        },
+        {
+            path: '/personal_data_edit',
+            name: 'personalDataEdit',
+            component: personalDataEdit,
+        },
         // {
         //     path: '*',
         //     redirect: '/'

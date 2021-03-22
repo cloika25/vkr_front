@@ -14,7 +14,10 @@ export default {
   components: {
     Page_footer,
     Page_header
-  }
+  },
+    mounted() {
+        this.$store.dispatch('tryLogin')
+    }
 }
 </script>
 

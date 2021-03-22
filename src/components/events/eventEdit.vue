@@ -60,13 +60,16 @@ export default {
                 })
         },
         updateEvent(){
-            let body = Object.assign({}, this.event);
-            this.$store.dispatch('updateEvent', this.eventId, body)
-                .then( (response) => {
-                    console.log(response.data)
+            let data = {
+                eventId: this.eventId,
+                body: this.event
+            }
+            this.$store.dispatch('updateEvent', data)
+                .then( () => {
+                    this.goBack();
                 })
                 .catch((error)=>{
-                    console.log(error.response);
+                    console.error(error.response);
                     this.$toast.error(error.response);
                 })
         },

@@ -10,6 +10,8 @@ export default new Vuex.Store({
         isAuth: false,
         username: '',
         email: '',
+        firstName: '',
+        lastName: '',
         events: [],
         token: '',
     },
@@ -21,22 +23,30 @@ export default new Vuex.Store({
         },
         CLEAR_TOKEN(state){
             state.token = '';
+            localStorage.clear()
         },
         CLEAR_ACCOUNT(state){
             state.isAuth = false;
             state.username = '';
             state.email = '';
+            state.firstName = '';
+            state.lastName = '';
         },
         SAVE_IN_SESSION_STORAGE(state, auth_token){
             state.token = auth_token;
-            sessionStorage.setItem('auth_token_fqw', auth_token);
+            localStorage.setItem('auth_token_fqw', auth_token);
         },
         GET_SESSION_STORAGE(state){
-            state.token = sessionStorage.getItem('auth_token_fqw')
+            state.token = localStorage.getItem('auth_token_fqw')
         },
         ALL_EVENTS(state, value){
             state.events = value
         },
+        SET_CABINET(state, value){
+            state.firstName = value.firstName;
+            state.lastName = value.lastName;
+            state.email = value.email;
+        }
     },
     actions:{
         // ------ CRUD functional ------
@@ -48,21 +58,20 @@ export default new Vuex.Store({
             return getResourses('POST', 'api/remove_event', {id: id})
         },
 
-        updateEvent({commit}, id, body){ // eslint-disable-line
-            return getResourses('POST', 'api/update_event', body)
+        updateEvent({commit}, data){ // eslint-disable-line
+            return getResourses('POST', 'api/update_event', data)
         },
 
         getAllEvents({commit}){
             getResourses('GET', 'api/events')
-                .then( Response =>{
-                    commit('ALL_EVENTS', Response.data);
+                .then( (response) =>{
+                    commit('ALL_EVENTS', response.data);
                 })
                 .catch(()=>{
                         Vue.$toast.error('Произошла ошибка при загрузке мероприятий')
                     }
                 )
         },
-
         // ------ CRUD functional END------
         registration({commit}, data){
             let body = {
@@ -97,6 +106,13 @@ export default new Vuex.Store({
                 })
         },
 
+        tryLogin({commit, dispatch}){
+            commit('GET_SESSION_STORAGE');
+            if (this.state.token != undefined){
+                dispatch('account')
+            }
+        },
+
         logout({commit}){
             getResourses('POST', 'auth/token/logout/', this.state.username)
             commit('CLEAR_ACCOUNT')
@@ -124,7 +140,19 @@ export default new Vuex.Store({
         getEvent({commit}, id){ // eslint-disable-line
             return getResourses('POST', 'api/event', {id: id})
         },
+
+        setCabinet({commit}, data){
+            commit('SET_CABINET', data)
+        }
     },
     getters: {
+        getAccount: state => {
+            return {
+                username: state.username,
+                email: state.email,
+                firstName: state.firstName,
+                lastName: state.lastName,
+            }
+        }
     }
 })

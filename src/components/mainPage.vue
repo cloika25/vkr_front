@@ -1,5 +1,5 @@
 <template>
-  <h1>loliki</h1>
+  <h1>First page</h1>
 </template>
 
 <script>

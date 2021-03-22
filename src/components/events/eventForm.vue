@@ -63,7 +63,7 @@ export default {
         }
         this.$store.dispatch('createEvent', body)
             .then(()=>{
-                this.$router.push('my_events')
+                this.$router.push({name: 'myEvents'})
                 this.$toast.success('Мероприятие успешно создано')
             }).catch(()=>{
                 this.$toast.error('Произошла ошибка при создании')
