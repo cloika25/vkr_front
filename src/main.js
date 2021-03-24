@@ -8,7 +8,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'vue-toast-notification/dist/theme-sugar.css';
 import router from "@/router/index";
 import store from "@/store/index";
-
+import "./font-awesome-4.7.0/css/font-awesome.min.css"
 import "@/css/app.css";
 
 Vue.use(BootstrapVue)

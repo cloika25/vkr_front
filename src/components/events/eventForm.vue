@@ -1,3 +1,4 @@
+<!--suppress XmlInvalidId -->
 <template>
   <div>
     <b-navbar class="page-header">
@@ -10,28 +11,51 @@
             Назад
         </b-button>
     </b-navbar>
-    <b-form>
-      <b-form-group>
-          <div>
-              <b-form-input
-                  placeholder="Название мероприятия"
-                  v-model="name_event" />
-          </div>
-          <div>
-              <b-form-datepicker
-                  placeholder="дата начала мероприятия"
-                  v-model="date_start" />
-          </div>
-          <div>
-              <b-form-datepicker
-                  placeholder="дата окончания мероприятия"
-                  v-model="date_close" />
-          </div>
-      </b-form-group>
-      <b-form-group>
-        <b-button @click="createEvent()">Создать мероприятие</b-button>
-      </b-form-group>
-    </b-form>
+    <div class="content">
+        <b-row>
+            <b-col>
+                <b-row>
+                  <b-col>
+                      <label for="fullName">Название мероприятия</label>
+                  </b-col>
+                  <b-col>
+                      <b-form-input
+                          placeholder="введите название мероприятия"
+                          id="fullName"
+                          v-model="name_event" />
+                  </b-col>
+                </b-row>
+                <b-row>
+                    <b-col>
+                        <label for="dateStart">Дата начала мероприятия</label>
+                    </b-col>
+                    <b-col>
+                        <b-form-datepicker
+                          placeholder="введите дату начала мероприятия"
+                          id="dateStart"
+                          v-model="date_start" />
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col>
+                        <label for="dateClose">Дата окончания мероприятия</label>
+                    </b-col>
+                    <b-col>
+                        <b-form-datepicker
+                          placeholder="введите дату окончания мероприятия"
+                          id="dateClose"
+                          v-model="date_close" />
+                    </b-col>
+                </b-row>
+            </b-col>
+            <b-col>
+
+            </b-col>
+        </b-row>
+        <b-form-group>
+            <b-button @click="createEvent()">Создать мероприятие</b-button>
+        </b-form-group>
+    </div>
   </div>
 </template>
 
@@ -80,5 +104,10 @@ export default {
 </script>
 
 <style scoped>
-
+.content{
+    padding: 40px 20px
+}
+.row{
+    margin-bottom: 10px;
+}
 </style>

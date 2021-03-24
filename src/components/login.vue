@@ -9,8 +9,6 @@
         <span class="field_name">Password</span>
         <input class="field_input" type="password" v-model="password">
       </label>
-      <label id="comment" hidden>
-      </label>
     </div>
     <div class="auth_form">
       <div class="auth row auth_button" @click="authorize_user">

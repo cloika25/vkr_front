@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <Page_header />
+    <Page_header class="header"/>
     <router-view class="main-wrap" />
-    <Page_footer />
+    <Page_footer class="footer" />
   </div>
 </template>
 
@@ -15,7 +15,7 @@ export default {
     Page_footer,
     Page_header
   },
-    mounted() {
+    created() {
         this.$store.dispatch('tryLogin')
     }
 }

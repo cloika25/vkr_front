@@ -8,28 +8,30 @@
                 Назад
             </b-button>
         </b-navbar>
-        <b-form v-if="event != []">
-            <b-form-group>
-                <div>
-                    <b-form-input
-                        placeholder="Название мероприятия"
-                        v-model="event.FullName" />
-                </div>
-                <div>
-                    <b-form-datepicker
-                        placeholder="дата начала мероприятия"
-                        v-model="event.DateStart" />
-                </div>
-                <div>
-                    <b-form-datepicker
-                        placeholder="дата окончания мероприятия"
-                        v-model="event.DateClose" />
-                </div>
-            </b-form-group>
-            <b-form-group>
-                <b-button @click="updateEvent()">Сохранить изменения</b-button>
-            </b-form-group>
-        </b-form>
+        <div class="content">
+            <b-form v-if="event != []">
+                <b-form-group>
+                    <div>
+                        <b-form-input
+                            placeholder="Название мероприятия"
+                            v-model="event.FullName" />
+                    </div>
+                    <div>
+                        <b-form-datepicker
+                            placeholder="дата начала мероприятия"
+                            v-model="event.DateStart" />
+                    </div>
+                    <div>
+                        <b-form-datepicker
+                            placeholder="дата окончания мероприятия"
+                            v-model="event.DateClose" />
+                    </div>
+                </b-form-group>
+                <b-form-group>
+                    <b-button @click="updateEvent()">Сохранить изменения</b-button>
+                </b-form-group>
+            </b-form>
+        </div>
     </div>
 </template>
 
@@ -51,7 +53,7 @@ export default {
     },
     methods: {
         goBack(){
-            this.$router.push({name: "events"});
+            this.$router.push({name: "myEvents"});
         },
         getEvent(){
             this.$store.dispatch('getEvent', this.eventId)

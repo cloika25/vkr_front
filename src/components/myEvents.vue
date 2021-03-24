@@ -10,7 +10,7 @@
                 </b-button>
             </b-navbar-nav>
         </b-navbar>
-        <div class="page-body all-events">
+        <div class="content all-events">
             <events-table
                 :events="events"
                 :editable="true"

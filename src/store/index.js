@@ -12,6 +12,8 @@ export default new Vuex.Store({
         email: '',
         firstName: '',
         lastName: '',
+        genderId: null,
+        birthDate: null,
         events: [],
         token: '',
     },
@@ -46,6 +48,8 @@ export default new Vuex.Store({
             state.firstName = value.firstName;
             state.lastName = value.lastName;
             state.email = value.email;
+            state.genderId = value.genderId;
+            state.birthDate = value.birthDate
         }
     },
     actions:{
@@ -143,6 +147,13 @@ export default new Vuex.Store({
 
         setCabinet({commit}, data){
             commit('SET_CABINET', data)
+        },
+
+        getCabinet({commit}){
+            return getResourses('GET', 'api/cabinet')
+                .then((response)=>{
+                    commit("SET_CABINET", response.data)
+                })
         }
     },
     getters: {
@@ -152,6 +163,8 @@ export default new Vuex.Store({
                 email: state.email,
                 firstName: state.firstName,
                 lastName: state.lastName,
+                genderId: state.genderId,
+                birthDate: state.birthDate,
             }
         }
     }

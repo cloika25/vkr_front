@@ -27,7 +27,6 @@
 export default {
     name: "dropdownMenu",
     props:{
-    
     },
     data(){
         return {
@@ -44,9 +43,16 @@ export default {
         },
         closeModal(){
             this.$emit('closeModal');
+        },
+        onClickOutside(event){
+            if (!this.$el.contains(event.target) && event.target.id != "username"){
+                this.$emit('closeModal')
+            }
         }
     },
-    created() {
+    mounted() {
+        document.addEventListener('click', this.onClickOutside);
+        this.$on('hook:beforeDestroy', () => document.removeEventListener('click', this.onClickOutside));
     }
 }
 
@@ -56,7 +62,8 @@ export default {
     .dd_menu{
         position: absolute;
         display: block;
-        background: #3e3d3d;
+        background: white;
+        border: 2px grey solid;
         width: 200px;
         z-index: 100000;
     }
@@ -86,6 +93,6 @@ export default {
         transform: rotate(-0.28deg);
     }
     .username{
-        color: white;
+        color: black;
     }
 </style>
