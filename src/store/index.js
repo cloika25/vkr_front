@@ -63,7 +63,15 @@ export default new Vuex.Store({
         },
 
         updateEvent({commit}, data){ // eslint-disable-line
-            return getResourses('POST', 'api/update_event', data)
+            var formData = new FormData()
+            formData.append('Id', data.id)
+            formData.append('FullName', data.FullName)
+            formData.append('DateClose', data.DateClose)
+            formData.append('DateStart', data.DateStart)
+            formData.append('PhotoMain', data.PhotoMain)
+            formData.append('PhotoPreview', data.PhotoPreview)
+            formData.append('Description', data.Description)
+            return getResourses('PUT', 'api/update_event', formData)
         },
 
         getAllEvents({commit}){

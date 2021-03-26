@@ -25,10 +25,25 @@ export default {
 #app {
   text-align: center;
   color: #2c3e50;
-  height: 100%;
+}
+.header{
+    top: 0;
+    z-index: 1000;
+    position: sticky;
+    box-shadow: 0 0 3px gray;
 }
 .main-wrap{
-  margin-left: 10%;
-  margin-right: 10%;
+    margin-left: 10%;
+    margin-right: 10%;
+    min-height: calc(100vh - 160px);
+}
+.footer{
+    z-index: 100000;
+    width: 100%;
+    height: 70px;
+    bottom: 0;
+    margin-bottom: 0;
+    margin-top: 20px;
+    background-color: white;
 }
 </style>

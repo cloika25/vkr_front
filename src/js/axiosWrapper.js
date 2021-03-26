@@ -2,15 +2,15 @@ import {base_url} from "@/config";
 import store from "@/store/index"
 import axios from 'axios';
 
-function getResourses(method = 'GET', url = '', config = {}){
+function getResourses(method = 'GET', url = '', data = {}){
     var configuration = {
         url: base_url + url,
         method: method,
-        data: config,
+        data: data,
+        headers: {}
     }
-    // console.log(url, store.state.token)
     if (store.state.token != ''){
-        configuration['headers'] = {'Authorization': 'Token ' + store.state.token};
+        configuration['headers']['Authorization'] = 'Token ' + store.state.token;
     }
     return axios(configuration)
 }

@@ -5,21 +5,28 @@
         Мероприятия
       </b-navbar-brand>
     </b-navbar>
+<!--    <div class="content all-events">-->
+<!--        <events-table-->
+<!--            :events="events"-->
+<!--            :editable="false"-->
+<!--        />-->
+<!--    </div>-->
     <div class="content all-events">
-        <events-table
-            :events="events"
-            :editable="false"
-        />
+        <div v-for="event in events" :key="event.id">
+            <eventCard
+                :item="event"
+            />
+        </div>
     </div>
   </div>
 </template>
 
 <script>
-import EventsTable from "@/components/events/EventsTable";
+import eventCard from "@/components/events/eventCard";
 
 export default {
     name: "events",
-    components: {EventsTable},
+    components: {eventCard},
   data(){
         return {
         }
@@ -42,7 +49,7 @@ export default {
 <style scoped>
 .all-events{
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   border: 2px black solid;
   margin-bottom: 1em;
 }
