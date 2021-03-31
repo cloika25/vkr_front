@@ -15,12 +15,12 @@
                     <nav-bar-item
                         class="link"
                         name="Войти"
-                        link="login"
+                        link="/login"
                     />
                     <nav-bar-item
                         class="link"
                         name = "Регистрация"
-                        link = "registration"
+                        link = "/registration"
                     />
                 </div>
                 <div class="cell">
@@ -37,7 +37,7 @@
                         <nav-bar-item
                             class="link"
                             name="Мероприятия"
-                            link="all_events"
+                            link="/all_events"
                         />
                     </div>
                 </div>

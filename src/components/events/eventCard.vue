@@ -1,12 +1,17 @@
 <template>
     <div class="card_wrapper">
-        <div class="card_body" :style="{backgroundImage: preview}">
-            <div class="card_inner">
+        <div class="card_body" :style="{backgroundImage: preview}" @click="aboutEvent()">
+            <div class="card_inner" >
                 <div class="card_header">
                     <span>{{item.FullName}}</span>
                 </div>
                 <div class="card_footer">
+                    <div class="organizator">
+                        <span>{{authorName}}</span>
+                    </div>
+                    <div class="date">
 
+                    </div>
                 </div>
             </div>
         </div>
@@ -35,13 +40,17 @@ export default {
                 url = 'url('+ base_url_media + 'media/events/default.jpg)'
             }
             return url
+        },
+        authorName(){
+            return this.item.author.lastName + " " + this.item.author.firstName;
         }
     },
     methods: {
-
+        aboutEvent(){
+            location.href = "/event/" + this.item.id;
+        },
     },
     created() {
-
     }
 }
 
@@ -52,12 +61,11 @@ export default {
         padding: 20px;
     }
     .card_body{
-        width: 100%;
         max-width: 100%;
         position: relative;
         padding: 22px 24px 24px 24px;
-        min-height: 200px;
-        min-width: 250px;
+        height: 200px;
+        width: 250px;
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center;
@@ -83,7 +91,17 @@ export default {
         cursor: pointer;
     }
     .card_inner{
+        cursor: pointer;
         position: relative;
         z-index: 12;
+        height: 154px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
+    .card_footer, .card_header{
+        display: flex;
+        justify-content: flex-start;
+    }
+
 </style>

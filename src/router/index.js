@@ -9,6 +9,7 @@ import eventEdit from "@/components/events/eventEdit";
 import allEvents from "@/components/allEvents";
 import myEvents from "@/components/myEvents";
 import personalDataEdit from "@/components/cabinet/personalDataEdit";
+import eventPage from "@/components/events/eventPage";
 
 Vue.use(Router)
 
@@ -71,6 +72,11 @@ export default new Router({
             name: 'personalDataEdit',
             component: personalDataEdit,
         },
+        {
+            path: '/event/:id',
+            name: 'eventPage',
+            component: eventPage
+        }
         // {
         //     path: '*',
         //     redirect: '/'

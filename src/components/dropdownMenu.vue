@@ -5,12 +5,12 @@
         </div>
         <div class="br" />
         <div class="row">
-            <router-link class="link" to="cabinet">
+            <router-link class="link" to="/cabinet">
                 Личный кабинет
             </router-link>
         </div>
         <div class="row">
-            <router-link class="link" to="my_events">
+            <router-link class="link" to="/my_events">
                 Мои мероприятия
             </router-link>
         </div>
