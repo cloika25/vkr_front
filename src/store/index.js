@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import router from "@/router/index"
 import getResourses from "@/js/axiosWrapper";
+import {media_dir} from "@/config";
 
 Vue.use(Vuex)
 
@@ -12,6 +13,7 @@ export default new Vuex.Store({
         email: '',
         firstName: '',
         lastName: '',
+        photo: null,
         genderId: null,
         birthDate: null,
         events: [],
@@ -21,6 +23,7 @@ export default new Vuex.Store({
         SET_ACCOUNT(state, body){
             state.isAuth = true;
             state.username = body.username;
+            state.photo = body.photo;
             state.email = body.email;
         },
         CLEAR_TOKEN(state){
@@ -49,8 +52,17 @@ export default new Vuex.Store({
             state.lastName = value.lastName;
             state.email = value.email;
             state.genderId = value.genderId;
-            state.birthDate = value.birthDate
-        }
+            state.birthDate = value.birthDate;
+            state.photo = value.photo;
+        },
+        SET_AVATAR(state, value){
+            if (value != ''){
+                state.photo = media_dir + value;
+            }else{
+                state.photo = null;
+            }
+
+        },
     },
     actions:{
         // ------ CRUD functional ------
@@ -131,11 +143,20 @@ export default new Vuex.Store({
             commit('CLEAR_TOKEN')
         },
 
-        account({commit}){ // eslint-disable-line
+        account({commit, dispatch}){ // eslint-disable-line
             getResourses('GET', 'auth/users/me/')
                 .then((account)=>{
                     let body = account.data
                     commit('SET_ACCOUNT', body)
+                })
+            dispatch('getAvatar');
+        },
+
+        getAvatar({commit}){
+            getResourses('GET', 'api/avatar')
+                .then((response)=>{
+                    let photoLink = response.data
+                    commit('SET_AVATAR', photoLink)
                 })
         },
 
@@ -162,6 +183,29 @@ export default new Vuex.Store({
                 .then((response)=>{
                     commit("SET_CABINET", response.data)
                 })
+        },
+
+        updateAvatar({dispatch}, data){
+            let formData = new FormData()
+            formData.append("photo", data)
+            getResourses('POST', 'api/updateAvatar', formData)
+                .then(()=>{
+                    console.log("all ok")
+                    dispatch('getAvatar')
+                })
+                .catch((error)=>{
+                    this.$toast.error(error.response)
+                })
+        },
+        removeAvatar({commit}){
+            getResourses('GET', 'api/removeAvatar')
+                .then(()=>{
+                    this.$toast.success("Аватарка удалена")
+                    commit('SET_AVATAR', '')
+                })
+                .catch((error)=>{
+                    this.$toast.error(error.response)
+                })
         }
     },
     getters: {
@@ -173,6 +217,7 @@ export default new Vuex.Store({
                 lastName: state.lastName,
                 genderId: state.genderId,
                 birthDate: state.birthDate,
+                photo: state.photo,
             }
         }
     }

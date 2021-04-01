@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import {base_url_media} from "@/config";
+import {base_url} from "@/config";
 
 export default {
     name: "eventCard",
@@ -28,16 +28,16 @@ export default {
     },
     data(){
         return {
-            base_url_media,
+            base_url,
         }
     },
     computed: {
         preview(){
             let url
             if (this.item.PhotoPreview != null){
-                url = 'url('+ base_url_media + this.item.PhotoPreview + ')'
+                url = 'url('+ base_url + this.item.PhotoPreview + ')'
             }else{
-                url = 'url('+ base_url_media + 'media/events/default.jpg)'
+                url = 'url('+ base_url + 'media/events/default.jpg)'
             }
             return url
         },

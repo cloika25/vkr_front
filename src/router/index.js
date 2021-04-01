@@ -15,6 +15,7 @@ import eventPage from "@/components/events/eventPage";
 Vue.use(Router)
 
 async function authGuard(from, to, next){
+    store.dispatch('tryLogin');
     if (store.state.isAuth == 'true' || store.state.isAuth == true) {
         next();
     } else {

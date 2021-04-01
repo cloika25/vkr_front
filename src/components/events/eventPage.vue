@@ -1,13 +1,18 @@
 <template>
     <div class="page_wrapper">
-        <div class="page_inner" v-if="event!=[]">
+        <div class="page_inner" v-if="isLoaded">
             <div class="content">
                 <div class="header_line">
                     <div class="event_date">
                         {{ formatedDate(event.DateStart) }}
                     </div>
                     <div class="author">
-                        {{ authorName }}
+                        <div class="author_avatar">
+                            <b-avatar :src="mediaLink(author.photo)"></b-avatar>
+                        </div>
+                        <div class="author_name">
+                            {{ authorName }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -27,9 +32,11 @@
 </template>
 
 <script>
-import {base_url_media} from "@/config";
+import {base_url} from "@/config";
 import getResourses from "@/js/axiosWrapper";
 import VueMarkdown from "vue-markdown"
+import {formatedDate} from "@/js/common"
+import {mediaLink} from "@/js/common";
 
 export default {
     name: "eventPage",
@@ -39,9 +46,9 @@ export default {
         return {
             event: [],
             author: [],
-            months: ['янв', 'фев','марта',
-                'апр','мая','июнь','июля',
-                'авг','сен','окт','ноя','дек']
+            isLoaded: false,
+            formatedDate,
+            mediaLink,
         }
     },
     components:{VueMarkdown},
@@ -51,9 +58,9 @@ export default {
         },
         photoHeader(){
             if(this.event.PhotoMain != undefined){
-                return "url(" + base_url_media+ this.event.PhotoMain + ")";
+                return "url(" + base_url+ this.event.PhotoMain + ")";
             }else{
-                return "url(" + base_url_media + "media/events/default_main.jpg)"
+                return "url(" + base_url + "media/events/default_main.jpg)"
             }
         },
         authorName(){
@@ -67,6 +74,7 @@ export default {
                 .then( response =>{
                     this.event = response.data[0];
                     this.getAuthor();
+                    this.isLoaded = true;
                 })
                 .catch(()=>{
                     this.$toast.error('Мероприятие не найдено')
@@ -80,19 +88,21 @@ export default {
                     this.author = response.data
                 })
         },
-        formatedDate(date){
-            let fDate = new Date(date)
-            return fDate.getDay() + " " +  this.months[fDate.getMonth()] + " " + fDate.getFullYear()
-        }
+
     },
     mounted(){
         this.getEvent(this.eventId);
+    },
+    created() {
     }
 }
 
 </script>
 
 <style scoped>
+    .author_name{
+        margin-left: 5px;
+    }
     .header_banner{
         width: 100%;
         height: 40vh;

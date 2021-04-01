@@ -4,6 +4,7 @@
             <div class="loyout_cell">
                 <div v-if="isAuth" class="cell">
                     <div @click="showModal()">
+                        <b-avatar :src="mediaLink(avatar)"></b-avatar>
                         <nav-bar-item
                             id="username"
                             class="link username"
@@ -54,6 +55,7 @@
 <script>
 import NavBarItem from "@/components/nav-bar/NavBarItem";
 import dropdownMenu from "@/components/dropdownMenu";
+import {mediaLink} from '@/js/common';
 export default {
     name: "NavBar",
     components: {NavBarItem, dropdownMenu},
@@ -62,14 +64,18 @@ export default {
             showMenu: false,
             botton: {},
             ddMenu: {},
+            mediaLink,
         }
     },
     computed: {
+        avatar(){
+            return this.$store.state.photo;
+        },
         username(){
-            return this.$store.state.username
+            return this.$store.state.username;
         },
         isAuth(){
-            return this.$store.state.isAuth
+            return this.$store.state.isAuth;
         }
     },
     methods: {

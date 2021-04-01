@@ -32,7 +32,7 @@
                     </div>
                 </b-col>
                 <b-col>
-                    место под аватарку
+                    <avatar-edit :photoLink="user.photo"></avatar-edit>
                 </b-col>
             </b-row>
         </div>
@@ -40,9 +40,11 @@
 </template>
 
 <script>
+import AvatarEdit from "@/components/cabinet/avatarEdit";
 
 export default {
     name: "cabinet",
+    components: {AvatarEdit},
     props:{
     
     },
@@ -54,7 +56,7 @@ export default {
     computed: {
         user(){
             return this.$store.getters.getAccount;
-        }
+        },
     },
     watch:{
 
@@ -65,7 +67,7 @@ export default {
         },
         getCabinet(){
             this.$store.dispatch('getCabinet')
-        }
+        },
     },
     created() {
 
