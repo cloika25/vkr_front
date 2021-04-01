@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from '@/store/index'
 import main_page from "@/components/mainPage";
 import registration from "@/components/registration";
 import login from "@/components/login";
@@ -13,14 +14,14 @@ import eventPage from "@/components/events/eventPage";
 
 Vue.use(Router)
 
-// async function authGuard(from, to, next){
-//     if (store.state.loggedIn == 'true' || store.state.loggedIn == true) {
-//         next();
-//     } else {
-//         window.localStorage.clear();
-//         next({ name: 'login' });
-//     }
-// }
+async function authGuard(from, to, next){
+    if (store.state.isAuth == 'true' || store.state.isAuth == true) {
+        next();
+    } else {
+        window.localStorage.clear();
+        next({ name: 'login' });
+    }
+}
 
 
 export default new Router({
@@ -65,6 +66,7 @@ export default new Router({
         {
             path: '/cabinet',
             name: 'cabinet',
+            beforeEnter: authGuard,
             component: cabinet,
         },
         {
