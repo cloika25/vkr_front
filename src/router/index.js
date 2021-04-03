@@ -14,75 +14,76 @@ import eventPage from "@/components/events/eventPage";
 
 Vue.use(Router)
 
-async function authGuard(from, to, next){
-    store.dispatch('tryLogin');
-    if (store.state.isAuth == 'true' || store.state.isAuth == true) {
-        next();
-    } else {
-        window.localStorage.clear();
-        next({ name: 'login' });
-    }
+async function authGuard(from, to, next) {
+  await store.dispatch('tryLogin');
+  let isAuth = store.getters.isAuth;
+  if (isAuth == 'true' || isAuth == true) {
+    next();
+  } else {
+    window.localStorage.clear();
+    next({name: 'login'});
+  }
 }
 
 
 export default new Router({
-    mode: 'history',
-    routes: [
-        {
-            path: '/',
-            name: 'main_page',
-            // beforeEnter: authGuard,
-            component: main_page,
-        },
-        {
-          path: '/registration',
-          name: 'registration',
-          component: registration,
-        },
-        {
-          path: '/login',
-          name: 'login',
-          component: login,
-        },
-        {
-            path: '/all_events',
-            name: 'events',
-            component: allEvents,
-        },
-        {
-            path: '/createEvent',
-            name: 'createEvent',
-            component: eventForm,
-        },
-        {
-            path: '/eventEdit/:id',
-            name: 'eventEdit',
-            component: eventEdit,
-        },
-        {
-            path: '/my_events',
-            name: 'myEvents',
-            component: myEvents,
-        },
-        {
-            path: '/cabinet',
-            name: 'cabinet',
-            beforeEnter: authGuard,
-            component: cabinet,
-        },
-        {
-            path: '/personal_data_edit',
-            name: 'personalDataEdit',
-            component: personalDataEdit,
-        },
-        {
-            path: '/event/:id',
-            name: 'eventPage',
-            component: eventPage
-        }
-        // {
-        //     path: '*',
-        //     redirect: '/'
-        // },
-    ]
+  mode: 'history',
+  routes: [
+    {
+      path: '/',
+      name: 'main_page',
+      // beforeEnter: authGuard,
+      component: main_page,
+    },
+    {
+      path: '/registration',
+      name: 'registration',
+      component: registration,
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: login,
+    },
+    {
+      path: '/all_events',
+      name: 'events',
+      component: allEvents,
+    },
+    {
+      path: '/createEvent',
+      name: 'createEvent',
+      component: eventForm,
+    },
+    {
+      path: '/eventEdit/:id',
+      name: 'eventEdit',
+      component: eventEdit,
+    },
+    {
+      path: '/my_events',
+      name: 'myEvents',
+      component: myEvents,
+    },
+    {
+      path: '/cabinet',
+      name: 'cabinet',
+      beforeEnter: authGuard,
+      component: cabinet,
+    },
+    {
+      path: '/personal_data_edit',
+      name: 'personalDataEdit',
+      component: personalDataEdit,
+    },
+    {
+      path: '/event/:id',
+      name: 'eventPage',
+      component: eventPage
+    }
+    // {
+    //     path: '*',
+    //     redirect: '/'
+    // },
+  ]
 })

@@ -16,7 +16,7 @@
         </div>
         <div class="br" />
         <div class="row" @click="logout()">
-            <router-link class="link" to="">
+            <router-link class="link" to="/">
                 Выйти.
             </router-link>
         </div>
