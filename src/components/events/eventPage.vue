@@ -1,34 +1,39 @@
 <template>
-    <div class="page_wrapper">
-        <div class="page_inner" v-if="isLoaded">
-            <div class="content">
-                <div class="header_line">
-                    <div class="event_date">
-                        {{ formatedDate(event.DateStart) }}
-                    </div>
-                    <div class="author">
-                        <div class="author_avatar">
-                            <b-avatar :src="mediaLink(author.photo)"></b-avatar>
-                        </div>
-                        <div class="author_name">
-                            {{ authorName }}
-                        </div>
-                    </div>
-                </div>
+  <div class="page_wrapper">
+    <div class="page_inner" v-if="isLoaded">
+      <div class="content">
+        <div class="header_line">
+          <div class="event_date">
+            {{ formatedDate(event.DateStart) }}
+          </div>
+          <div class="author">
+            <div class="author_avatar">
+              <b-avatar :src="mediaLink(author.photo)"></b-avatar>
             </div>
-            <div class="header_banner" :style="{backgroundImage: photoHeader}">
-
+            <div class="author_name">
+              {{ authorName }}
             </div>
-            <div class="content">
-                <div class="event_title">
-                    <div>{{event.FullName}}</div>
-                </div>
-                <div class="discription">
-                    <vue-markdown :source="event.Description"></vue-markdown>
-                </div>
-            </div>
+          </div>
         </div>
+      </div>
+      <div class="header_banner" :style="{backgroundImage: photoHeader}">
+
+      </div>
+      <div class="content">
+        <div class="event_title">
+          <div>{{ event.FullName }}</div>
+        </div>
+        <div class="discription">
+          <vue-markdown :source="event.Description"></vue-markdown>
+        </div>
+        <event-stages
+          :stages="stages"
+          v-if="stages.length != 0"
+        >
+        </event-stages>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -37,112 +42,128 @@ import getResourses from "@/js/axiosWrapper";
 import VueMarkdown from "vue-markdown"
 import {formatedDate} from "@/js/common"
 import {mediaLink} from "@/js/common";
+import EventStages from "@/components/events/blocks/eventStages";
 
 export default {
-    name: "eventPage",
-    props:{
-    },
-    data(){
-        return {
-            event: [],
-            author: [],
-            isLoaded: false,
-            formatedDate,
-            mediaLink,
-        }
-    },
-    components:{VueMarkdown},
-    computed: {
-        eventId(){
-            return this.$route.params.id
-        },
-        photoHeader(){
-            if(this.event.PhotoMain != undefined){
-                return "url(" + base_url+ this.event.PhotoMain + ")";
-            }else{
-                return "url(" + base_url + "media/events/default_main.jpg)"
-            }
-        },
-        authorName(){
-            return this.author.lastName + " " + this.author.firstName;
-        },
-
-    },
-    methods: {
-        getEvent(eventId){
-            this.$store.dispatch('getEvent', eventId)
-                .then( response =>{
-                    this.event = response.data[0];
-                    this.getAuthor();
-                    this.isLoaded = true;
-                })
-                .catch(()=>{
-                    this.$toast.error('Мероприятие не найдено')
-                })
-        },
-        getAuthor(){
-            let body = new FormData()
-            body.append("id", this.event.AuthorUserId)
-            getResourses('POST', 'api/getName', body)
-                .then((response)=>{
-                    this.author = response.data
-                })
-        },
-
-    },
-    mounted(){
-        this.getEvent(this.eventId);
-    },
-    created() {
+  name: "eventPage",
+  props: {},
+  data() {
+    return {
+      event: [],
+      author: [],
+      stages: [],
+      isLoaded: false,
+      formatedDate,
+      mediaLink,
     }
+  },
+  components: {EventStages, VueMarkdown},
+  computed: {
+    eventId() {
+      return this.$route.params.id
+    },
+    photoHeader() {
+      if (this.event.PhotoMain != undefined) {
+        return "url(" + base_url + this.event.PhotoMain + ")";
+      } else {
+        return "url(" + base_url + "media/events/default_main.jpg)"
+      }
+    },
+    authorName() {
+      return this.author.lastName + " " + this.author.firstName;
+    },
+
+  },
+  methods: {
+    getEvent(eventId) {
+      this.$store.dispatch('getEvent', eventId)
+        .then(response => {
+          this.event = response.data[0];
+          this.getAuthor();
+          this.getStages()
+          this.isLoaded = true;
+        })
+        .catch(() => {
+          this.$toast.error('Мероприятие не найдено')
+        })
+    },
+    async getAuthor() {
+      let body = new FormData()
+      body.append("id", this.event.AuthorUserId)
+      getResourses('POST', 'api/getName', body)
+        .then((response) => {
+          this.author = response.data
+        })
+    },
+    async getStages() {
+      let formData = new FormData()
+      formData.append("EventId", this.eventId)
+      getResourses('POST', 'api/stages', formData)
+        .then((response)=>{
+          this.stages = response.data;
+        })
+    }
+
+  },
+  mounted() {
+    this.getEvent(this.eventId);
+  },
+  created() {
+  }
 }
 
 </script>
 
 <style scoped>
-    .author_name{
-        margin-left: 5px;
-    }
-    .header_banner{
-        width: 100%;
-        height: 40vh;
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-position: center;
-    }
-    .event_title{
-        display: flex;
-        font-size: 1.875rem;
-        padding-left: 2rem;
-        margin: 0 0 1.875rem 0;
-        text-transform: uppercase;
-        font-weight: 900;
-        word-wrap: break-word;
-        letter-spacing: 1.6px;
-    }
-    .header_line{
-        display: flex;
-        justify-content: space-between;
-        height: 7vh;
-    }
-    .event_date{
-        display: flex;
-        align-items: center;
-        width: 30%;
-        padding: 5px 10px;
-        background-color: #cdcccc;
-    }
-    .author{
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        width: 30%;
-        padding: 5px 10px;
-        background-color: #cdcccc;
-    }
-    .discription{
-        padding-left: 2rem;
-        padding-bottom: 2rem;
-        text-align: start;
-    }
+.author_name {
+  margin-left: 5px;
+}
+
+.header_banner {
+  width: 100%;
+  height: 40vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.event_title {
+  display: flex;
+  font-size: 1.875rem;
+  padding-left: 2rem;
+  margin: 0 0 1.875rem 0;
+  text-transform: uppercase;
+  font-weight: 900;
+  word-wrap: break-word;
+  letter-spacing: 1.6px;
+}
+
+.header_line {
+  display: flex;
+  justify-content: space-between;
+  height: 7vh;
+}
+
+.event_date {
+  display: flex;
+  align-items: center;
+  width: 30%;
+  padding: 5px 10px;
+  background-color: #cdcccc;
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 30%;
+  padding: 5px 10px;
+  background-color: #cdcccc;
+}
+
+.discription {
+  padding-left: 2rem;
+  padding-bottom: 2rem;
+  text-align: start;
+}
 </style>

@@ -1,67 +1,75 @@
 <template>
-    <div>
-        <b-table
-            striped
-            hover
-            :fields="fields"
-            :items="events"
-        >
-            <template #cell(actions)="row" v-if="editable">
-                <b-button @click="editEvent(row.item.id)">
-                    редактировать
-                </b-button>
-                <b-button @click="removeEvent(row.item.id)">
-                    удалить
-                </b-button>
-            </template>
-        </b-table>
-    </div>
+  <div>
+    <b-table
+      striped
+      hover
+      :fields="fields"
+      :items="events"
+    >
+      <template #cell(actions)="row" v-if="editable">
+        <b-button-group>
+          <b-button @click="goToStages(row.item.id)">
+            этапы
+          </b-button>
+          <b-button @click="editEvent(row.item.id)">
+            редактировать
+          </b-button>
+          <b-button @click="removeEvent(row.item.id)">
+            удалить
+          </b-button>
+        </b-button-group>
+      </template>
+    </b-table>
+  </div>
 </template>
 <script>
 
 export default {
-    name: "EventsTable",
-    components: {},
-    props:{
-        events:{
-            type: Array,
-            default: () => [],
-        },
-        editable:{
-            type: Boolean,
-            default: false,
-        },
+  name: "EventsTable",
+  components: {},
+  props: {
+    events: {
+      type: Array,
+      default: () => [],
     },
-    data(){
-        return {
-            fields: [],
-        }
+    editable: {
+      type: Boolean,
+      default: false,
     },
-    computed: {
-    
-    },
-    methods: {
-        removeEvent(id){
-           this.$store.dispatch('removeEvent', id)
-               .then(() =>
-                   {setTimeout(() => {
-                       this.$store.dispatch('getAllEvents')}
-                       , 1000)}
-               )
-               .catch(error =>{
-                   console.log(error)
-               })
-        },
-        editEvent(id){
-            this.$router.push({name: "eventEdit", params: {id: id}})
-        }
-    },
-    created() {
-        this.fields = ["FullName", "DateStart", "DateClose"]
-        if(this.editable){
-            this.fields.push("Actions")
-        }
+  },
+  data() {
+    return {
+      fields: [],
     }
+  },
+  computed: {},
+  methods: {
+    removeEvent(id) {
+      this.$store.dispatch('removeEvent', id)
+        .then(() => {
+            setTimeout(() => {
+                this.$store.dispatch('getAllEvents')
+              }
+              , 1000)
+          }
+        )
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    editEvent(id) {
+      this.$router.push({name: "eventEdit", params: {id: id}})
+    },
+    goToStages(id){
+      this.$router.push({name: "myStages", params: {id: id}})
+    }
+  },
+  created() {
+    this.fields = ["FullName", "DateStart", "DateClose"]
+    if (this.editable) {
+      this.fields.push("Actions")
+    }
+  }
 }
 
 </script>

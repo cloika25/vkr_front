@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import getResourses from "@/js/axiosWrapper";
 import {media_dir} from "@/config";
 import auth from "@/store/modules/auth";
+import dict from "@/store/modules/dict";
 import router from "@/router";
 
 Vue.use(Vuex)
@@ -210,6 +211,7 @@ export default new Vuex.Store({
     isAuth: state => state.auth.isAuth,
   },
   modules: {
-    auth: auth
+    auth: auth,
+    dict: dict
   },
 })

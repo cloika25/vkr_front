@@ -11,6 +11,7 @@ import allEvents from "@/components/allEvents";
 import myEvents from "@/components/myEvents";
 import personalDataEdit from "@/components/cabinet/personalDataEdit";
 import eventPage from "@/components/events/eventPage";
+import allStages from "@/components/stages/allStages";
 
 Vue.use(Router)
 
@@ -32,7 +33,6 @@ export default new Router({
     {
       path: '/',
       name: 'main_page',
-      // beforeEnter: authGuard,
       component: main_page,
     },
     {
@@ -58,11 +58,13 @@ export default new Router({
     {
       path: '/eventEdit/:id',
       name: 'eventEdit',
+      beforeEnter: authGuard,
       component: eventEdit,
     },
     {
       path: '/my_events',
       name: 'myEvents',
+      beforeEnter: authGuard,
       component: myEvents,
     },
     {
@@ -74,16 +76,19 @@ export default new Router({
     {
       path: '/personal_data_edit',
       name: 'personalDataEdit',
+      beforeEnter: authGuard,
       component: personalDataEdit,
     },
     {
       path: '/event/:id',
       name: 'eventPage',
       component: eventPage
+    },
+    {
+      path: '/stages/:id',
+      name: 'myStages',
+      beforeEnter: authGuard,
+      component: allStages
     }
-    // {
-    //     path: '*',
-    //     redirect: '/'
-    // },
   ]
 })

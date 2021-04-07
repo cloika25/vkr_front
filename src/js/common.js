@@ -6,7 +6,17 @@ var months= ['янв', 'фев','марта',
 
 export function formatedDate(date){
     let fDate = new Date(date)
-    return fDate.getDay() + " " +  months[fDate.getMonth()] + " " + fDate.getFullYear()
+    return fDate.getDay() + " " +  months[fDate.getMonth()] + " " + fDate.getFullYear();
+}
+
+export function formatedShortDate(date){
+    let fDate = new Date(date)
+    return fDate.getDay() + " " + months[fDate.getMonth()];
+}
+
+export function formatedTime(date){
+    let fDate = new Date(date)
+    return fDate.getHours() + ":" + fDate.getMinutes();
 }
 
 export function mediaLink(rawLink){
