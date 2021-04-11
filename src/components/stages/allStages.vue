@@ -48,7 +48,6 @@
         @close="closeModal"
         @updateStages="getStages"
       >
-
       </edit-stage>
     </b-modal>
     <b-modal id="createStage" hide-footer>
@@ -59,6 +58,15 @@
       >
       </create-stage>
     </b-modal>
+    <b-modal id="fieldsStage" hide-footer>
+      <stage-fields
+        :stage = editingStage
+        :eventId = eventId
+        @close="closeModal"
+        @updateStages="getStages"
+      >
+      </stage-fields>
+    </b-modal>
   </b-container>
 </template>
 
@@ -66,9 +74,10 @@
 import getResourses from "@/js/axiosWrapper";
 import CreateStage from "@/components/stages/createStage";
 import EditStage from "@/components/stages/editStage";
+import stageFields from "@/components/stages/stageFields";
 export default {
   name: "allStages",
-  components: {EditStage, CreateStage, },
+  components: {EditStage, CreateStage, stageFields},
   props: {},
   data() {
     return {
@@ -118,12 +127,14 @@ export default {
     closeModal(){
       this.$bvModal.hide('editStage');
       this.$bvModal.hide('createStage');
+      this.$bvModal.hide('fieldsStage');
     },
     goBack(){
       this.$router.push({name: 'myEvents'});
     },
     addFieldsForRegister(id){
-      return id;
+      this.editingStageId = id;
+      this.$bvModal.show('fieldsStage')
     },
     editStage(id){
       this.editingStageId = id;

@@ -1,16 +1,10 @@
 <template>
   <div>
-    <b-navbar >
+    <b-navbar>
       <b-navbar-brand class="Title">
         Мероприятия
       </b-navbar-brand>
     </b-navbar>
-<!--    <div class="content all-events">-->
-<!--        <events-table-->
-<!--            :events="events"-->
-<!--            :editable="false"-->
-<!--        />-->
-<!--    </div>-->
     <div class="content all-events">
         <div v-for="event in events" :key="event.id">
             <eventCard

@@ -30,3 +30,16 @@ export function mediaLink(rawLink){
         return ''
     }
 }
+
+export function parseFields(rawFields){
+    if (rawFields != undefined){
+        return JSON.parse(rawFields)
+    }else{
+        return []
+    }
+
+}
+
+export function convertToJSON(allFields){
+    return JSON.stringify(allFields)
+}

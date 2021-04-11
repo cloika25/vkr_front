@@ -15,13 +15,7 @@ body{
     justify-content: center;
 }
 
-.loyout_cell{
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-    margin-left: 10%;
-    margin-right: 10%;
-}
+
 
 .cell{
     display: flex;

@@ -1,4 +1,3 @@
-import "@/css/app.css"
 import Vue from 'vue';
 import App from './App.vue';
 import VueToast from 'vue-toast-notification';
@@ -10,6 +9,7 @@ import router from "@/router/index";
 import store from "@/store/index";
 import "./font-awesome-4.7.0/css/font-awesome.min.css"
 import "@/css/app.css";
+import "@/css/common.scss"
 
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)

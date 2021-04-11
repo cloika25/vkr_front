@@ -2,16 +2,21 @@
   <b-card>
     <b-tabs>
       <b-tab v-for="stage in stages" :key="stage.id" :title="stage.StageName">
-        <b-row>
-          <b-col>
-            {{formatedShortDate(stage.DateStart)}} {{formatedTime(stage.DateStart)}} - {{formatedShortDate(stage.DateEnd)}} {{formatedTime(stage.DateEnd)}}
-          </b-col>
-          <b-col>
-            {{formats.filter(elem => elem.id == stage.FormatId)[0].name}}
-          </b-col>
-        </b-row>
-        <b-row>
+        <b-row class="event__stage__description">
           <vue-markdown :source="stage.Description"></vue-markdown>
+        </b-row>
+        <b-row class="event__stage__footer">
+          <b-col>
+            формат: {{formats.filter(elem => elem.id == stage.FormatId)[0].name}}
+          </b-col>
+          <b-col>
+           Дата и время: {{formatedShortDate(stage.DateStart)}} {{formatedTime(stage.DateStart)}} - {{formatedShortDate(stage.DateEnd)}} {{formatedTime(stage.DateEnd)}}
+          </b-col>
+          <b-col>
+            <b-button @click="toRegistration(stage.id)">
+              Зарегистрироваться
+            </b-button>
+          </b-col>
         </b-row>
       </b-tab>
     </b-tabs>
@@ -40,7 +45,9 @@ export default {
       }
     },
     methods: {
-
+      toRegistration(stageId){
+        this.$router.push({name: 'registerToStage', params: {id: this.$route.params.id, stageId: stageId}})
+      }
     },
     created() {
       this.$store.dispatch('dict/getFormats')
@@ -50,7 +57,4 @@ export default {
 </script>
 
 <style scoped>
-.row{
-  text-align: start;
-}
 </style>

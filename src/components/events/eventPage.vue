@@ -1,29 +1,28 @@
 <template>
-  <div class="page_wrapper">
-    <div class="page_inner" v-if="isLoaded">
-      <div class="content">
-        <div class="header_line">
-          <div class="event_date">
-            {{ formatedDate(event.DateStart) }}
-          </div>
-          <div class="author">
-            <div class="author_avatar">
-              <b-avatar :src="mediaLink(author.photo)"></b-avatar>
+  <div class="page__wrapper">
+    <div class="page__innner" v-if="isLoaded">
+      <div class="page__banner header_banner" :style="{backgroundImage: photoHeader}">
+        <div >
+          <div class="page__header">
+            <div class="page__header__date">
+              {{ formatedDate(event.DateStart) }}
             </div>
-            <div class="author_name">
-              {{ authorName }}
+            <div class="page__header__author">
+              <div class="author_avatar">
+                <b-avatar :src="mediaLink(author.photo)"></b-avatar>
+              </div>
+              <div class="author_name">
+                {{ authorName }}
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="header_banner" :style="{backgroundImage: photoHeader}">
-
-      </div>
-      <div class="content">
-        <div class="event_title">
+      <div class="page__content content">
+        <div class="event__title">
           <div>{{ event.FullName }}</div>
         </div>
-        <div class="discription">
+        <div class="event__description">
           <vue-markdown :source="event.Description"></vue-markdown>
         </div>
         <event-stages
@@ -87,7 +86,7 @@ export default {
           this.$toast.error('Мероприятие не найдено')
         })
     },
-    async getAuthor() {
+    getAuthor() {
       let body = new FormData()
       body.append("id", this.event.AuthorUserId)
       getResourses('POST', 'api/getName', body)
@@ -95,7 +94,7 @@ export default {
           this.author = response.data
         })
     },
-    async getStages() {
+    getStages() {
       let formData = new FormData()
       formData.append("EventId", this.eventId)
       getResourses('POST', 'api/stages', formData)
@@ -127,43 +126,10 @@ export default {
   background-position: center;
 }
 
-.event_title {
-  display: flex;
-  font-size: 1.875rem;
-  padding-left: 2rem;
-  margin: 0 0 1.875rem 0;
-  text-transform: uppercase;
-  font-weight: 900;
-  word-wrap: break-word;
-  letter-spacing: 1.6px;
-}
-
 .header_line {
   display: flex;
   justify-content: space-between;
   height: 7vh;
 }
 
-.event_date {
-  display: flex;
-  align-items: center;
-  width: 30%;
-  padding: 5px 10px;
-  background-color: #cdcccc;
-}
-
-.author {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  width: 30%;
-  padding: 5px 10px;
-  background-color: #cdcccc;
-}
-
-.discription {
-  padding-left: 2rem;
-  padding-bottom: 2rem;
-  text-align: start;
-}
 </style>

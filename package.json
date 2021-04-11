@@ -2,13 +2,15 @@
   "name": "front",
   "version": "0.1.0",
   "private": true,
+  "main": "./src/main.js",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "webpack --mode=development vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "axios": "^0.21.0",
+    "axios": "^0.21.1",
+    "babel-plugin-transform-scss": "^1.0.9",
     "babel-runtime": "^6.26.0",
     "bootstrap-vue": "^2.21.2",
     "core-js": "^3.6.5",
@@ -27,9 +29,15 @@
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "babel-eslint": "^10.1.0",
+    "@babel/plugin-proposal-export-default-from": "^7.0.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
-    "vue-template-compiler": "^2.6.11"
+    "node-sass": "^5.0.0",
+    "sass-loader": "^10.1.1",
+    "style-loader": "^2.0.0",
+    "vue-template-compiler": "^2.6.11",
+    "webpack": "^4.0.0",
+    "webpack-cli": "^4.6.0"
   },
   "eslintConfig": {
     "root": true,

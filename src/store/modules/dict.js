@@ -3,7 +3,6 @@ import getResourses from "@/js/axiosWrapper";
 const mutations = {
   SET_FORMATS(state, data){
     state.formatsEvent = data;
-    alert('Загружено')
   }
 }
 
@@ -21,7 +20,7 @@ const actions = {
       .then((response) =>{
         commit('SET_FORMATS', response.data)
       })
-  }
+  },
 }
 
 export default {

@@ -209,6 +209,8 @@ export default new Vuex.Store({
     },
     token: state => state.auth.token,
     isAuth: state => state.auth.isAuth,
+    getFIO: state => state.firstName + " " + state.lastName,
+    genderName: state => state.genderId === 1 ? "Мужской" : "Женский",
   },
   modules: {
     auth: auth,

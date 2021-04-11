@@ -12,18 +12,20 @@ import myEvents from "@/components/myEvents";
 import personalDataEdit from "@/components/cabinet/personalDataEdit";
 import eventPage from "@/components/events/eventPage";
 import allStages from "@/components/stages/allStages";
+import registerToStage from "@/components/events/registrations/registerToStage";
 
 Vue.use(Router)
 
-async function authGuard(from, to, next) {
-  await store.dispatch('tryLogin');
-  let isAuth = store.getters.isAuth;
-  if (isAuth == 'true' || isAuth == true) {
-    next();
-  } else {
-    window.localStorage.clear();
-    next({name: 'login'});
-  }
+function authGuard(from, to, next) {
+  store.dispatch(`tryLogin`).then(() => {
+    let isAuth = store.getters.isAuth;
+    if (isAuth == 'true' || isAuth == true) {
+      next();
+    } else {
+      window.localStorage.clear();
+      next({name: 'login'});
+    }
+  })
 }
 
 
@@ -89,6 +91,11 @@ export default new Router({
       name: 'myStages',
       beforeEnter: authGuard,
       component: allStages
+    },
+    {
+      path: '/registration_to_stage/:id/:stageId',
+      name: 'registerToStage',
+      component: registerToStage
     }
   ]
 })
