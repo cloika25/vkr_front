@@ -7,18 +7,15 @@
           Регистрация на {{stage.StageName}}
         </b-navbar-brand>
       </b-navbar>
-      <div class="content">
-        <b-row>
+      <div class="reg content">
+        <b-row class="reg__form">
           <b-col>
             <b-row>
               <b-col>
                 <label for="fio">Фамилия имя:</label>
               </b-col>
               <b-col>
-                <b-form-input
-                  id="fio"
-                  v-model="fio"
-                ></b-form-input>
+                <label id="fio">{{fio}}</label>
               </b-col>
             </b-row>
             <b-row>
@@ -29,9 +26,51 @@
                 <label id="gender">{{gender}}</label>
               </b-col>
             </b-row>
+            <b-row>
+              <b-col>
+                <label for="birthDate">Дата рождения: </label>
+              </b-col>
+              <b-col>
+                <label id="birthDate">{{formatedDate(birthDate)}}</label>
+              </b-col>
+            </b-row>
+            <b-row v-for="field in addingsFields" :key="field.name">
+              <b-col>
+                <label>{{ field.name }}</label>
+              </b-col>
+              <b-col>
+                <b-form-input
+                  v-if="field.type == 'text'"
+                  required
+                  :id="field.id"
+                  v-model="field.value"
+                ></b-form-input>
+                <b-form-textarea
+                  v-else-if="field.type == 'textarea'"
+                  required
+                  :id="field.id"
+                  v-model="field.value"
+                ></b-form-textarea>
+                <b-form-select
+                  v-else
+                  :id="field.id"
+                  required
+                  :options="field.options"
+                  v-model="field.value"
+                ></b-form-select>
+              </b-col>
+            </b-row>
           </b-col>
           <b-col>
 
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col>
+            <b-button
+              class="reg__submit"
+              @click="submit"
+            >Зарегистрироваться</b-button>
           </b-col>
         </b-row>
       </div>
@@ -44,6 +83,7 @@
 
 <script>
 import getResourses from "@/js/axiosWrapper";
+import {formatedDate, parseFields, convertToJSON} from "@/js/common";
 
 export default {
     name: "registerToStage",
@@ -57,6 +97,8 @@ export default {
           stage: [],
           author: [],
           addingsFields: [],
+          formatedDate,
+          convertToJSON,
         }
     },
     computed: {
@@ -71,11 +113,13 @@ export default {
       },
       gender(){
         return this.$store.getters.genderName;
+      },
+      birthDate(){
+        return this.$store.getters.birthDate;
       }
     },
     methods: {
       getEvent() {
-        console.log("da nu na")
         this.$store.dispatch('getEvent', this.eventId)
           .then(response => {
             this.event = response.data[0];
@@ -93,6 +137,7 @@ export default {
         getResourses('POST', 'api/stages', formData)
           .then((response)=>{
             this.stage = response.data.filter((elem) => {return elem.id == this.stageId})[0];
+            this.parseFieldsComp(this.stage)
           })
       },
       getAuthor() {
@@ -103,7 +148,20 @@ export default {
             this.author = response.data
           })
       },
-
+      parseFieldsComp(stage) {
+        this.addingsFields = parseFields(stage.Fields)
+      },
+      submit(){
+        let formData = new FormData();
+        formData.append("EventId", this.eventId);
+        formData.append("StageId", this.stageId);
+        formData.append("Fields", this.convertToJSON(this.addingsFields));
+        getResourses('POST', 'api/registrationUser', formData)
+        .then((response) => {
+          this.$toast.success(response.data);
+          this.$router.push({name: 'main_page'})
+        })
+      }
     },
     created() {
       this.$store.dispatch('getCabinet')
