@@ -8,6 +8,9 @@
     >
       <template #cell(actions)="row" v-if="editable">
         <b-button-group>
+          <b-button @click="goToParticipants(row.item.id)">
+            участники
+          </b-button>
           <b-button @click="goToStages(row.item.id)">
             этапы
           </b-button>
@@ -23,7 +26,7 @@
   </div>
 </template>
 <script>
-
+import eventService from '@/services/eventService'
 export default {
   name: "EventsTable",
   components: {},
@@ -45,27 +48,24 @@ export default {
   computed: {},
   methods: {
     removeEvent(id) {
-      this.$store.dispatch('removeEvent', id)
-        .then(() => {
-            setTimeout(() => {
-                this.$store.dispatch('getAllEvents')
-              }
-              , 1000)
-          }
-        )
-        .catch(error => {
-          console.log(error)
-        })
+      eventService.removeEvent(id);
     },
     editEvent(id) {
       this.$router.push({name: "eventEdit", params: {id: id}})
     },
     goToStages(id){
       this.$router.push({name: "myStages", params: {id: id}})
+    },
+    goToParticipants(id){
+      this.$router.push({name: "eventParticipants", params: {id: id}})
     }
   },
   created() {
-    this.fields = ["FullName", "DateStart", "DateClose"]
+    this.fields = [
+"FullName",
+"DateStart",
+"DateClose"
+]
     if (this.editable) {
       this.fields.push("Actions")
     }

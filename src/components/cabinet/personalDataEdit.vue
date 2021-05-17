@@ -108,12 +108,12 @@ export default {
             })
         },
         copyUser(){
-            this.user = this.$store.getters.getAccount;
+            this.user = this.$store.getters["auth/getAccount"];
         }
     },
     mounted(){
-        if(!this.$store.state.isAuth){
-            this.$store.dispatch('getCabinet')
+        if(!this.$store.state.auth.isAuth){
+            this.$store.dispatch('auth/getCabinet')
                 .then(()=>{
                     this.copyUser()
                 })

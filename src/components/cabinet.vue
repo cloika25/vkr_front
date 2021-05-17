@@ -55,7 +55,7 @@ export default {
     },
     computed: {
         user(){
-            return this.$store.getters.getAccount;
+            return this.$store.getters["auth/getAccount"];
         },
     },
     watch:{
@@ -66,7 +66,7 @@ export default {
             this.$router.push({name:'personalDataEdit'})
         },
         getCabinet(){
-            this.$store.dispatch('getCabinet')
+            this.$store.dispatch('auth/getCabinet')
         },
     },
     created() {

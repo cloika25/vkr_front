@@ -1,9 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import store from '@/store/index'
-import main_page from "@/components/mainPage";
-import registration from "@/components/registration";
-import login from "@/components/login";
+import main_page from "@/views/mainPage";
+import registration from "@/views/registration";
+import login from "@/views/login";
 import cabinet from "@/components/cabinet"
 import eventForm from "@/components/events/eventForm";
 import eventEdit from "@/components/events/eventEdit";
@@ -13,20 +12,10 @@ import personalDataEdit from "@/components/cabinet/personalDataEdit";
 import eventPage from "@/components/events/eventPage";
 import allStages from "@/components/stages/allStages";
 import registerToStage from "@/components/events/registrations/registerToStage";
+import eventParticipants from "@/components/events/eventParticipants";
+import MainLayout from "@/views/Layout/MainLayout";
 
 Vue.use(Router)
-
-function authGuard(from, to, next) {
-  store.dispatch(`tryLogin`).then(() => {
-    let isAuth = store.getters.isAuth;
-    if (isAuth == 'true' || isAuth == true) {
-      next();
-    } else {
-      window.localStorage.clear();
-      next({name: 'login'});
-    }
-  })
-}
 
 
 export default new Router({
@@ -34,8 +23,65 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'main_page',
-      component: main_page,
+      redirect: 'main_page',
+      component: MainLayout,
+      children: [
+        {
+          path: '/',
+          name: 'main_page',
+          component: main_page,
+        },
+        {
+          path: '/all_events',
+          name: 'events',
+          component: allEvents,
+        },
+        {
+          path: '/createEvent',
+          name: 'createEvent',
+          component: eventForm,
+        },
+        {
+          path: '/eventEdit/:id',
+          name: 'eventEdit',
+          component: eventEdit,
+        },
+        {
+          path: '/my_events',
+          name: 'myEvents',
+          component: myEvents,
+        },
+        {
+          path: '/cabinet',
+          name: 'cabinet',
+          component: cabinet,
+        },
+        {
+          path: '/personal_data_edit',
+          name: 'personalDataEdit',
+          component: personalDataEdit,
+        },
+        {
+          path: '/event/:id',
+          name: 'eventPage',
+          component: eventPage
+        },
+        {
+          path: '/event/:id/participants',
+          name: 'eventParticipants',
+          component: eventParticipants
+        },
+        {
+          path: '/stages/:id',
+          name: 'myStages',
+          component: allStages
+        },
+        {
+          path: '/registration_to_stage/:id/:stageId',
+          name: 'registerToStage',
+          component: registerToStage
+        }
+      ]
     },
     {
       path: '/registration',
@@ -47,55 +93,6 @@ export default new Router({
       name: 'login',
       component: login,
     },
-    {
-      path: '/all_events',
-      name: 'events',
-      component: allEvents,
-    },
-    {
-      path: '/createEvent',
-      name: 'createEvent',
-      component: eventForm,
-    },
-    {
-      path: '/eventEdit/:id',
-      name: 'eventEdit',
-      beforeEnter: authGuard,
-      component: eventEdit,
-    },
-    {
-      path: '/my_events',
-      name: 'myEvents',
-      beforeEnter: authGuard,
-      component: myEvents,
-    },
-    {
-      path: '/cabinet',
-      name: 'cabinet',
-      beforeEnter: authGuard,
-      component: cabinet,
-    },
-    {
-      path: '/personal_data_edit',
-      name: 'personalDataEdit',
-      beforeEnter: authGuard,
-      component: personalDataEdit,
-    },
-    {
-      path: '/event/:id',
-      name: 'eventPage',
-      component: eventPage
-    },
-    {
-      path: '/stages/:id',
-      name: 'myStages',
-      beforeEnter: authGuard,
-      component: allStages
-    },
-    {
-      path: '/registration_to_stage/:id/:stageId',
-      name: 'registerToStage',
-      component: registerToStage
-    }
   ]
 })
+

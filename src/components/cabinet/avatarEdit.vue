@@ -44,11 +44,11 @@ export default {
         hiddenUploadHandle(event){
             let newFile = event.target.files
             if (newFile.length > 0){
-                this.$store.dispatch('updateAvatar', newFile[0])
+                this.$store.dispatch('auth/updateAvatar', newFile[0])
             }
         },
         removeAvatar(){
-            this.$store.dispatch('removeAvatar')
+            this.$store.dispatch('auth/removeAvatar')
         }
     },
     mounted() {

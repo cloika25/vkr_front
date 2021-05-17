@@ -92,3 +92,12 @@
     }
   }
 }
+
+.reg{
+  &__form{
+    padding-top: 30px;
+  }
+  &__submit{
+    margin-bottom: 10px;
+  }
+}

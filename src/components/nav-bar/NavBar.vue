@@ -25,7 +25,7 @@
           />
         </div>
         <div class="cell">
-          <div>
+          <div class="navCell">
             <i class="fa fa-home" aria-hidden="true"></i>
             <nav-bar-item
               class="link"
@@ -33,7 +33,7 @@
               link="/"
             />
           </div>
-          <div>
+          <div class="navCell">
             <i class="fa fa-calendar" aria-hidden="true"></i>
             <nav-bar-item
               class="link"
@@ -56,6 +56,7 @@
 import NavBarItem from "@/components/nav-bar/NavBarItem";
 import dropdownMenu from "@/components/dropdownMenu";
 import {mediaLink} from '@/js/common';
+import {mapGetters} from "vuex";
 
 export default {
   name: "NavBar",
@@ -63,21 +64,16 @@ export default {
   data() {
     return {
       showMenu: false,
-      botton: {},
       ddMenu: {},
       mediaLink,
     }
   },
   computed: {
-    avatar() {
-      return this.$store.state.photo;
-    },
-    username() {
-      return this.$store.state.username;
-    },
-    isAuth() {
-      return this.$store.state.auth.isAuth;
-    }
+    ...mapGetters({
+      avatar: 'auth/avatarUrl',
+      username: 'auth/username',
+      isAuth: 'auth/isAuth'
+    }),
   },
   methods: {
     showModal() {
@@ -94,5 +90,8 @@ export default {
 </script>
 
 <style scoped>
-
+  .navCell{
+    display: flex;
+    align-items: center;
+  }
 </style>

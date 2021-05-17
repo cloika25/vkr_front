@@ -86,15 +86,15 @@ export default {
           DateClose: this.date_close,
         }
         this.$store.dispatch('createEvent', body)
-            .then(()=>{
+            .then(() => {
                 this.$router.push({name: 'myEvents'})
                 this.$toast.success('Мероприятие успешно создано')
-            }).catch(()=>{
+            }).catch(() => {
                 this.$toast.error('Произошла ошибка при создании')
             })
       },
       linkBack(){
-          this.$router.push({name: "events"})
+          this.$router.back();
       },
     },
     created() {

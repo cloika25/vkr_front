@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="auth_form">
     <div class="auth_form">
       <label class="auth row">
         <span class="field_name">Login</span>
@@ -12,7 +12,10 @@
     </div>
     <div class="auth_form">
       <div class="auth row auth_button" @click="authorize_user">
-        <span>push me</span>
+        <span>Войти</span>
+      </div>
+      <div>
+        <router-link to="/registration">Зарегистрироваться</router-link>
       </div>
     </div>
   </div>
@@ -32,21 +35,12 @@ name: "login",
 
   },
   methods: {
-    close_comment(){
-      var form_reg = document.getElementById("comment");
-      form_reg.hidden = true;
-    },
-    show_comment(text){
-      var form_reg = document.getElementById("comment");
-      form_reg.hidden = false;
-      form_reg.innerText = text;
-    },
     authorize_user(){
       let body = {
         username: this.login,
         password: this.password
       }
-      this.$store.dispatch('login', body)
+      this.$store.dispatch('auth/login', body)
     }
   },
 }

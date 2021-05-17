@@ -176,14 +176,10 @@ export default {
         })
     },
     changePreviewImg($event) {
-      console.log($event.target.files[0])
       this.event.PhotoPreview = $event.target.files[0]
-      console.log("photoPreview", this.event.PhotoPreview)
     },
     changeMainImg($event) {
-      console.log($event.target.files[0])
       this.event.PhotoMain = $event.target.files[0]
-      console.log("photoMain", this.event.PhotoMain)
     }
   },
   created() {

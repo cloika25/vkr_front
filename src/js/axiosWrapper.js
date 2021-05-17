@@ -9,7 +9,7 @@ function getResourses(method = 'GET', url = '', data = {}) {
     data: data,
     headers: {}
   }
-  let token = store.getters.token
+  let token = store.getters["auth/token"]
   if (token !== null) {
     configuration['headers']['Authorization'] = 'Token ' + token;
   }
