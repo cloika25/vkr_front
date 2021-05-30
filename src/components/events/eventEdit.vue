@@ -10,7 +10,7 @@
       </b-button>
     </b-navbar>
     <div class="content">
-      <div v-if="event != []">
+      <div v-if="event">
         <b-row>
           <b-col>
             <b-row class="new_row">
@@ -71,7 +71,7 @@
                 </b-row>
                 <b-row>
                   <img v-if="event.PhotoPreview != null" class="image_preview"
-                       :src="base_url+event.PhotoPreview">
+                       :src="event.PhotoPreview">
                 </b-row>
               </b-col>
             </b-row>
@@ -93,7 +93,7 @@
                 </b-row>
                 <b-row>
                   <img v-if="event.PhotoMain != null" class="image_preview"
-                       :src="base_url+event.PhotoMain">
+                       :src="event.PhotoMain">
                 </b-row>
               </b-col>
             </b-row>
@@ -141,7 +141,7 @@ export default {
   },
   data() {
     return {
-      event: [],
+      event: null,
       base_url,
       isLoaded: false,
     }
@@ -156,9 +156,9 @@ export default {
       this.$router.push({name: "myEvents"});
     },
     getEvent() {
-      this.$store.dispatch('getEventForEdit', this.eventId)
+      this.$store.dispatch('getEvent', this.eventId)
         .then(response => {
-          this.event = response.data[0];
+          this.event = response.data;
           this.isLoaded = true;
         })
         .catch((error) => {
@@ -166,7 +166,7 @@ export default {
         })
     },
     updateEvent() {
-      this.$store.dispatch('updateEvent', this.event)
+      this.$store.dispatch('dict/updateEvent', this.event)
         .then(() => {
           this.goBack();
         })

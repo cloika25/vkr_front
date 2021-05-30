@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="layout_body">
     <PageHeader class="header"/>
     <b-container class="main_wrapper">
       <router-view></router-view>
@@ -25,8 +25,11 @@ export default {
   computed: {},
   methods: {},
   created() {
-    if (!this.$store.getters["auth/isAuth"]){
-      this.$router.push("/login")
+    const token = localStorage.getItem('auth_token_fqw')
+    if (!token) {
+      this.$router.push({name: 'login'});
+    } else {
+      this.$store.dispatch('auth/getCabinet')
     }
   }
 }
@@ -34,7 +37,13 @@ export default {
 </script>
 
 <style scoped>
+.layout_body{
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 .main_wrapper{
+  flex: 1;
   height: calc(100vh - 160px);
 }
 .header{
@@ -44,11 +53,11 @@ export default {
   box-shadow: 0 0 3px gray;
 }
 .footer{
-  z-index: 100000;
-  height: 70px;
-  bottom: 0;
-  margin-bottom: 0;
+  flex-shrink: 0;
   margin-top: 20px;
+  z-index: 100000;
+  height: 50px;
   background-color: white;
+  margin-bottom: 0;
 }
 </style>

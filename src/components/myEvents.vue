@@ -22,6 +22,7 @@
 <script>
 import EventsTable from "@/components/events/EventsTable";
 import getResourses from "@/js/axiosWrapper";
+import {formatedDate} from "@/js/common";
 
 export default {
   name: "myEvents",
@@ -41,6 +42,10 @@ export default {
       getResourses('GET', 'api/my_events')
         .then((response) => {
           this.events = response.data
+          this.events.forEach(event => {
+            event.DateStart = formatedDate(event.DateStart);
+            event.DateClose = formatedDate(event.DateClose)
+          })
         })
     }
   },

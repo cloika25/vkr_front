@@ -15,8 +15,8 @@
         </b-col>
         <b-col>
           <b-form-group
-          label="Тип поля"
-          :label-for="field.id+'type'"
+            label="Тип поля"
+            :label-for="field.id+'type'"
           >
             <b-form-select
               v-model="field.type"
@@ -54,69 +54,73 @@
     <b-row>
       <b-button
         @click="submit()"
-      >Сохранить</b-button>
+      >Сохранить
+      </b-button>
     </b-row>
   </b-container>
 </template>
 
 <script>
-import { parseFields, convertToJSON } from '@/js/common'
+import {parseFields, convertToJSON} from '@/js/common'
 import getResourses from "@/js/axiosWrapper";
+
 export default {
-    name: "stageFields",
-    props:{
-      stage: Object,
-      eventId: String,
-    },
-    data(){
-        return {
-          fields: [],
-          types: [{
-            text: 'text',
-            value: 'text'
-          },{
-            text: 'textarea',
-            value: 'textarea'
-          },{
-            text: 'selector',
-            value:'selector'
-          }]
-        }
-    },
-    computed: {
-    
-    },
-    methods: {
-      maxInd(){
-        if (this.fields.length == 0){
-          return 0
-        }else{
-          return Math.max.apply(null, this.fields.map((elem)=>{return elem.id}))
-        }
+  name: "stageFields",
+  props: {
+    stage: Object,
+    eventId: String,
+  },
+  data() {
+    return {
+      fields: [],
+      types: [
+{
+        text: 'text',
+        value: 'text'
       },
-      addField(){
-        this.fields.push({id: this.maxInd()+1, name: '', type: "text", options: []})
+{
+        text: 'textarea',
+        value: 'textarea'
       },
-      removeField(id){
-        this.fields = this.fields.filter(elem=> elem.id != id)
-      },
-      submit(){
-        let prepJson = convertToJSON(this.fields)
-        let formData = new FormData()
-        formData.append('StageId', this.stage.id);
-        formData.append('Fields', prepJson);
-        formData.append("EventId", this.eventId)
-        getResourses('POST', 'api/updateFields', formData)
-        .then(()=>{
+{
+        text: 'selector',
+        value: 'selector'
+      }
+]
+    }
+  },
+  computed: {},
+  methods: {
+    maxInd() {
+      if (this.fields.length == 0) {
+        return 0
+      } else {
+        return Math.max.apply(null, this.fields.map((elem) => elem.id))
+      }
+    },
+    addField() {
+      this.fields.push({id: this.maxInd() + 1, name: '', type: "text", options: []})
+    },
+    removeField(id) {
+      this.fields = this.fields.filter(elem => elem.id != id)
+    },
+    submit() {
+      let prepJson = convertToJSON(this.fields)
+      let formData = new FormData()
+      formData.append('StageId', this.stage.id);
+      formData.append('Fields', prepJson);
+      formData.append("EventId", this.eventId)
+      getResourses('POST', 'api/updateFields', formData)
+        .then(() => {
           this.$toast.success("Поля успешно изменены");
           this.$emit('close');
           this.$emit('updateStages');
         })
-      }
-    },
-    created() {
-      this.fields = parseFields(this.stage.Fields)
     }
+  },
+  created() {
+    this.fields = parseFields(this.stage.Fields)
+  }
 }
 
 </script>

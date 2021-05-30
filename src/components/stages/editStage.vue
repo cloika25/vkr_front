@@ -140,22 +140,22 @@ export default {
   },
   computed: {},
   methods: {
-    getFormatOptions(){
+    getFormatOptions() {
       getResourses('GET', 'api/getFormats')
-        .then((response) =>{
-          this.FormatOptions = response.data.map((elem)=>{return {text: elem.name, value: elem.id}})
+        .then((response) => {
+          this.FormatOptions = response.data.map((elem) => ({text: elem.name, value: elem.id}))
         })
     },
-    copyProp(){
+    copyProp() {
       this.StageName = this.stage.StageName
       this.Description = this.stage.Description
       this.FormatId = this.stage.FormatId
       this.DateStart = this.stage.DateStart.slice(0, this.stage.DateStart.indexOf('T'));
-      this.TimeStart = this.stage.DateStart.slice(this.stage.DateStart.indexOf('T')+1, -1);
+      this.TimeStart = this.stage.DateStart.slice(this.stage.DateStart.indexOf('T') + 1, -1);
       this.DateClose = this.stage.DateEnd.slice(0, this.stage.DateEnd.indexOf('T'));
-      this.TimeClose = this.stage.DateEnd.slice(this.stage.DateEnd.indexOf('T')+1, -1);
+      this.TimeClose = this.stage.DateEnd.slice(this.stage.DateEnd.indexOf('T') + 1, -1);
     },
-    submit(){
+    submit() {
       let formData = new FormData()
       formData.append("StageId", this.stage.id)
       formData.append("StageName", this.StageName)
@@ -165,12 +165,12 @@ export default {
       formData.append("DateStart", `${this.DateStart}T${this.TimeStart}`)
       formData.append("DateEnd", `${this.DateClose}T${this.TimeClose}`)
       getResourses('POST', 'api/updateStage', formData)
-        .then(()=>{
+        .then(() => {
           this.$toast.success("Этап успешно изменен");
           this.$emit('close');
           this.$emit('updateStages');
         })
-        .catch((error)=>{
+        .catch((error) => {
           this.$toast.error(error.response.data);
         })
     }

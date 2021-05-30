@@ -121,8 +121,8 @@ export default {
     getEvent() {
       this.$store.dispatch('getEvent', this.eventId)
         .then(response => {
-          this.event = response.data[0];
-          this.getAuthor();
+          this.event = response.data;
+          this.author = response.data.AuthorUserId;
           this.getStages()
           this.isLoaded = true;
         })
@@ -131,20 +131,10 @@ export default {
         })
     },
     getStages() {
-      let formData = new FormData()
-      formData.append("EventId", this.eventId)
-      getResourses('POST', 'api/stages', formData)
+      getResourses('GET', 'api/stages?EventId='+this.eventId)
         .then((response) => {
           this.stage = response.data.filter((elem) => elem.id == this.stageId)[0];
           this.parseFieldsComp(this.stage)
-        })
-    },
-    getAuthor() {
-      let body = new FormData()
-      body.append("id", this.event.AuthorUserId)
-      getResourses('POST', 'api/getName', body)
-        .then((response) => {
-          this.author = response.data
         })
     },
     parseFieldsComp(stage) {

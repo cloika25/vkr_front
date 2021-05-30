@@ -62,12 +62,12 @@ export default {
   },
   created() {
     this.fields = [
-"FullName",
-"DateStart",
-"DateClose"
+      {key: "FullName", label: 'Название мероприятия'},
+      {key: "DateStart", label: 'Начало'},
+      {key: "DateClose", label: 'Конец'},
 ]
     if (this.editable) {
-      this.fields.push("Actions")
+      this.fields.push({key: "Actions", label: 'Действия'})
     }
   }
 }

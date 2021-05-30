@@ -2,21 +2,21 @@
   <div>
     <div class="reg_form">
       <label class="registration row">
-        <span class="field_name">Login</span>
+        <span class="field_name">Логин</span>
         <input class="field_input" v-model="login">
       </label>
       <label class="registration row">
-        <span class="field_name">Password</span>
-        <input class="field_input" v-model="password">
+        <span class="field_name">Пароль</span>
+        <input class="field_input" type="password" v-model="password">
       </label>
       <label class="registration row">
-        <span class="field_name">Repeat password</span>
-        <input class="field_input" v-model="confirm_password">
+        <span class="field_name">Повторите пароль</span>
+        <input class="field_input" type="password" v-model="confirm_password">
       </label>
     </div>
     <div class="reg_form">
       <div class="registration row reg_button" @click="register_new_user">
-        <span>register</span>
+        <span>Зарегистрироваться</span>
       </div>
     </div>
   </div>
@@ -79,7 +79,7 @@ export default {
 
 .reg_button {
   background-color: darkgray;
-  max-width: 150px;
+  max-width: 180px;
   padding: 15px;
   margin-left: auto;
   margin-right: auto;

@@ -7,7 +7,7 @@
         </b-row>
         <b-row class="event__stage__footer">
           <b-col>
-            формат: {{formats.filter(elem => elem.id == stage.FormatId)[0].name}}
+            формат: {{formats.filter(elem => elem.id == stage.FormatId).name}}
           </b-col>
           <b-col>
            Дата и время: {{formatedShortDate(stage.DateStart)}} {{formatedTime(stage.DateStart)}} - {{formatedShortDate(stage.DateEnd)}} {{formatedTime(stage.DateEnd)}}

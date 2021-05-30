@@ -43,8 +43,8 @@
     </b-row>
     <b-modal id="editStage" hide-footer>
       <edit-stage
-        :eventId = eventId
-        :stage = editingStage
+        :eventId=eventId
+        :stage=editingStage
         @close="closeModal"
         @updateStages="getStages"
       >
@@ -52,7 +52,7 @@
     </b-modal>
     <b-modal id="createStage" hide-footer>
       <create-stage
-        :eventId = eventId
+        :eventId=eventId
         @close="closeModal"
         @updateStages="getStages"
       >
@@ -60,8 +60,8 @@
     </b-modal>
     <b-modal id="fieldsStage" hide-footer>
       <stage-fields
-        :stage = editingStage
-        :eventId = eventId
+        :stage=editingStage
+        :eventId=eventId
         @close="closeModal"
         @updateStages="getStages"
       >
@@ -75,6 +75,7 @@ import getResourses from "@/js/axiosWrapper";
 import CreateStage from "@/components/stages/createStage";
 import EditStage from "@/components/stages/editStage";
 import stageFields from "@/components/stages/stageFields";
+
 export default {
   name: "allStages",
   components: {EditStage, CreateStage, stageFields},
@@ -85,76 +86,80 @@ export default {
       isLoaded: false,
       modal: false,
       editingStageId: null,
-      headers: [{
+      headers: [
+{
         key: "id",
         label: "Id"
-      },{
+      },
+{
         key: "StageName",
         label: "Название",
-      },{
+      },
+{
         key: "DateStart",
         label: "Дата начала",
-      },{
+      },
+{
         key: "DateEnd",
         label: "Дата окончания",
-      },{
+      },
+{
         key: "Actions",
         label: "Действия"
-      }],
+      }
+],
     }
   },
   computed: {
-    eventId(){
+    eventId() {
       return this.$route.params.id
     },
-    editingStage(){
-      return this.stages.filter((elem)=> elem.id == this.editingStageId)[0]
+    editingStage() {
+      return this.stages.filter((elem) => elem.id == this.editingStageId)[0]
     }
   },
   methods: {
-    getStages(){
-      let formData = new FormData()
-      formData.append("EventId", this.eventId)
-      getResourses('POST', 'api/stages', formData)
-        .then((response)=>{
+    getStages() {
+      getResourses('GET', 'api/stages?EventId='+this.eventId)
+        .then((response) => {
           this.stages = response.data;
           this.isLoaded = true;
         })
     },
-    addStage(){
+    addStage() {
       this.$bvModal.show('createStage');
     },
-    closeModal(){
+    closeModal() {
       this.$bvModal.hide('editStage');
       this.$bvModal.hide('createStage');
       this.$bvModal.hide('fieldsStage');
     },
-    goBack(){
+    goBack() {
       this.$router.push({name: 'myEvents'});
     },
-    addFieldsForRegister(id){
+    addFieldsForRegister(id) {
       this.editingStageId = id;
       this.$bvModal.show('fieldsStage')
     },
-    editStage(id){
+    editStage(id) {
       this.editingStageId = id;
       this.$bvModal.show('editStage');
     },
-    removeStage(id){
+    removeStage(id) {
       this.$bvModal.msgBoxConfirm("Вы точно хотите удалить этап?")
-      .then(()=>{
-        let formData = new FormData()
-        formData.append("EventId", this.eventId)
-        formData.append("StageId", id)
-        getResourses('POST', 'api/removeStage', formData)
-        .then(()=>{
-          this.getStages();
-          this.$toast.success('Этап успешно удален');
+        .then(() => {
+          let formData = new FormData()
+          formData.append("EventId", this.eventId)
+          formData.append("StageId", id)
+          getResourses('POST', 'api/removeStage', formData)
+            .then(() => {
+              this.getStages();
+              this.$toast.success('Этап успешно удален');
+            })
+            .catch((error) => {
+              this.$toast.error(error.response.data)
+            })
         })
-        .catch((error)=>{
-          this.$toast.error(error.response.data)
-        })
-      })
     }
   },
   created() {

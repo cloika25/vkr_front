@@ -40,26 +40,30 @@ export default {
     filteredHeaders() {
       let result = [
         {
+          key: 'UserName',
+          label: 'Имя пользователя'
+        },
+        {
           key: 'StageName',
           label: 'Название этапа'
         },
         {
           key: 'EventName',
-          label: 'азвание мероприятия'
-        }
+          label: 'Название мероприятия'
+        },
       ]
       parseFields(this.participants[0].Fields).forEach((field) => {
         result.push({key: 'field' + field.name, label: field.name})
       })
-      console.log(result)
       return result
     },
     filteredParticipants() {
       return this.participants.map((participant) => {
         let result = {}
         result['id'] = participant.id;
-        result['StageName'] = participant.StageName;
-        result['EventName'] = participant.EventName;
+        result['UserName'] = participant.UserId.user.last_name + ' ' + participant.UserId.user.first_name;
+        result['StageName'] = participant.StageId.StageName;
+        result['EventName'] = participant.EventId.FullName;
         let fields = parseFields(participant.Fields);
         fields.forEach((field) =>
           result['field' + field.name] = field.value)
@@ -68,13 +72,11 @@ export default {
     }
   },
   methods: {
-    linkBack(){
-      this.$router.push({name: 'myStages', params: { id: this.eventId}})
+    linkBack() {
+      this.$router.push({name: 'myStages', params: {id: this.eventId}})
     },
     getParticipants() {
-      let formData = new FormData()
-      formData.append("EventId", this.eventId);
-      getResourses('POST', 'api/getParticipants', formData)
+      getResourses('GET', 'api/participants?EventId=' + this.eventId)
         .then((response) => {
           this.participants = response.data;
           this.isLoaded = true;

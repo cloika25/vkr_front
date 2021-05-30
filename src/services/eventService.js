@@ -1,5 +1,5 @@
 import getResourses from "@/js/axiosWrapper";
-
+import moment from 'moment'
 class eventService {
   static getEvents() {
     return getResourses('GET', 'api/events')
@@ -9,12 +9,12 @@ class eventService {
     let formData = new FormData()
     formData.append('Id', data.id)
     formData.append('FullName', data.FullName)
-    formData.append('DateClose', data.DateClose)
-    formData.append('DateStart', data.DateStart)
-    formData.append('PhotoMain', data.PhotoMain)
-    formData.append('PhotoPreview', data.PhotoPreview)
+    formData.append('DateClose', moment(data.DateClose).format('YYYY-MM-DD') + 'T00:00Z')
+    formData.append('DateStart', moment(data.DateStart).format('YYYY-MM-DD') + 'T00:00Z')
+    formData.append('PhotoMain', data.PhotoMain ? data.PhotoMain : '')
+    formData.append('PhotoPreview', data.PhotoPreview ? data.PhotoPreview : '')
     formData.append('Description', data.Description)
-    getResourses('PUT', 'api/update_event', formData)
+    getResourses('PUT', 'api/event/' + data.id, formData)
   }
 
   static removeEvent(eventId) {

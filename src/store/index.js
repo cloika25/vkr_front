@@ -13,14 +13,10 @@ export default new Vuex.Store({
   mutations: {
   },
   actions: {
-    // ------ CRUD functional ------
     createEvent({commit}, body) { // eslint-disable-line
-      return getResourses('POST', 'api/create_event', body)
+      return getResourses('POST', 'api/events', body)
     },
 
-    // ------ CRUD functional END------
-
-    // ------ AUTH api ----------------
 
     registration({commit, dispatch}, data) {
       let formData = new FormData();
@@ -33,18 +29,12 @@ export default new Vuex.Store({
         })
     },
 
-    // ------ AUTH api END -----------
-
     getEvent({commit}, id) { // eslint-disable-line
-      return getResourses('POST', 'api/event', {id: id})
+      return getResourses('GET', 'api/event/'+ id)
     },
 
     getEventForEdit({commit}, id) { // eslint-disable-line
       return getResourses('POST', 'api/eventForEdit', {id: id})
-    },
-
-    setCabinet({commit}, data) {
-      commit('SET_CABINET', data)
     },
   },
   getters: {

@@ -7,10 +7,13 @@
         </div>
         <div class="card_footer">
           <div class="organizator">
-            <span>{{ authorName }}</span>
+            <b-avatar :src="item.AuthorUserId.photo"></b-avatar><span>{{ authorName }}</span>
           </div>
-          <div class="date">
-
+          <div class="date" v-if="dayStart != dayEnd">
+            {{dayStart}} - {{dayEnd}}
+          </div>
+          <div class="date" v-else>
+            {{dayStart}}
           </div>
         </div>
       </div>
@@ -20,6 +23,7 @@
 
 <script>
 import {base_url} from "@/config";
+import {formatedDate} from "@/js/common";
 
 export default {
   name: "eventCard",
@@ -32,17 +36,19 @@ export default {
     }
   },
   computed: {
+    dayStart() { return formatedDate(this.item.DateStart) },
+    dayEnd() { return formatedDate(this.item.DateClose) },
     preview() {
       let url
       if (this.item.PhotoPreview != null) {
-        url = 'url(' + base_url + this.item.PhotoPreview + ')'
+        url = 'url(' + this.item.PhotoPreview + ')'
       } else {
         url = 'url(' + base_url + 'media/events/default.jpg)'
       }
       return url
     },
     authorName() {
-      return this.item.author.lastName + " " + this.item.author.firstName;
+      return this.item.AuthorUserId.user.last_name + " " + this.item.AuthorUserId.user.first_name;
     }
   },
   methods: {
@@ -50,7 +56,7 @@ export default {
       this.$router.push({name: "eventPage", params: {id: this.item.id}});
     },
   },
-  created() {
+  mounted() {
   }
 }
 
@@ -98,7 +104,7 @@ export default {
   cursor: pointer;
   position: relative;
   z-index: 12;
-  height: 154px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -106,7 +112,8 @@ export default {
 
 .card_footer, .card_header {
   display: flex;
-  justify-content: flex-start;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 </style>

@@ -1,10 +1,11 @@
 import getResourses from "@/js/axiosWrapper";
 import Vue from 'vue';
 import router from "@/router";
-import {media_dir} from "@/config";
+import {base_url} from "@/config";
 
 const mutations = {
   CLEAR_TOKEN(state) {
+    state.token = null;
     state.token = null;
     localStorage.clear();
     state.isAuth = false;
@@ -21,18 +22,24 @@ const mutations = {
     }
   },
   SET_ACCOUNT(state, body) {
+    state.id = body.id;
     state.username = body.username;
     state.photo = body.photo;
     state.email = body.email;
   },
   SET_CABINET(state, value) {
-    state.firstName = value.firstName;
-    state.lastName = value.lastName;
-    state.email = value.email;
-    state.genderId = value.genderId;
-    state.birthDate = value.birthDate;
-    state.photo = value.photo;
-    state.username = value.username;
+    if (value.token){
+      state.token = value.token;
+      state.isAuth = true;
+    }
+    state.id = value.data.user.id;
+    state.firstName = value.data.user.first_name;
+    state.lastName = value.data.user.last_name;
+    state.email = value.data.user.email;
+    state.genderId = value.data.genderId;
+    state.birthDate = value.data.birth_date;
+    state.photo = value.data.photo;
+    state.username = value.data.user.username;
   },
   CLEAR_ACCOUNT(state) {
     state.username = '';
@@ -42,7 +49,7 @@ const mutations = {
   },
   SET_AVATAR(state, value) {
     if (value !== '') {
-      state.photo = media_dir + value;
+      state.photo = base_url + value;
     } else {
       state.photo = null;
     }
@@ -51,7 +58,7 @@ const mutations = {
 
 const getters = {
   username: state => state.username === ""
-    ? "empty username"
+    ? "empty profile"
     : state.username,
   isAuth: state => state.isAuth,
   avatarUrl: state => state.photo,
@@ -103,6 +110,7 @@ const actions = {
         .then(() => {
           commit('CLEAR_TOKEN');
           commit('CLEAR_ACCOUNT')
+          location.reload()
         })
         .catch(() => {
           Vue.$toast.error('Произошла ошибка при выходе');
@@ -116,11 +124,9 @@ const actions = {
         .then(() => {
           dispatch('login', data)
             .then(() => {
-
             })
         })
         .catch((error) => {
-          console.log(error.response)
           if (error.response.data.username !== undefined) {
             Vue.$toast.error(error.response.data.username[0]);
           } else {
@@ -147,9 +153,10 @@ const actions = {
   },
 
   getCabinet({commit}) {
-    return getResourses('GET', 'api/cabinet')
+    return getResourses('GET', 'api/profile')
       .then((response) => {
-        commit("SET_CABINET", response.data)
+        const token = localStorage.getItem('auth_token_fqw');
+        commit("SET_CABINET", {data: response.data[0],token:  token})
       })
   },
 

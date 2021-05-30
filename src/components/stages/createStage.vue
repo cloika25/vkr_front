@@ -105,7 +105,7 @@
             </b-form-group>
           </b-col>
         </b-row>
-        <b-row >
+        <b-row>
           <b-col>
             <b-button @click="submit()">Добавить</b-button>
           </b-col>
@@ -118,63 +118,62 @@
 <script>
 import VueMarkdown from 'vue-markdown'
 import getResourses from "@/js/axiosWrapper";
+
 export default {
-    name: "CreateStage",
-    components: {VueMarkdown},
-    props:{
-      eventId: Object
+  name: "CreateStage",
+  components: {VueMarkdown},
+  props: {
+    eventId: Object
+  },
+  data() {
+    return {
+      StageName: '',
+      Description: '',
+      DateStart: null,
+      TimeStart: null,
+      DateClose: null,
+      TimeClose: null,
+      FormatId: null,
+      FormatOptions: [],
+    }
+  },
+  computed: {},
+  methods: {
+    getFormatOptions() {
+      getResourses('GET', 'api/getFormats')
+        .then((response) => {
+          this.FormatOptions = response.data.map((elem) => ({text: elem.name, value: elem.id}))
+        })
     },
-    data(){
-        return {
-          StageName: '',
-          Description: '',
-          DateStart: null,
-          TimeStart: null,
-          DateClose: null,
-          TimeClose: null,
-          FormatId: null,
-          FormatOptions: [],
-        }
-    },
-    computed: {
-    
-    },
-    methods: {
-      getFormatOptions(){
-          getResourses('GET', 'api/getFormats')
-            .then((response) =>{
-              this.FormatOptions = response.data.map((elem)=>{return {text: elem.name, value: elem.id}})
-            })
-      },
-      submit(){
-        let formData = new FormData()
-        formData.append("StageName", this.StageName)
-        formData.append("Description", this.Description)
-        formData.append("FormatId", this.FormatId)
-        formData.append("EventId", this.eventId)
-        formData.append("DateStart", `${this.DateStart}T${this.TimeStart}`)
-        formData.append("DateEnd", `${this.DateClose}T${this.TimeClose}`)
-        getResourses('PUT', 'api/createStage', formData)
-        .then(()=>{
+    submit() {
+      let formData = new FormData()
+      formData.append("StageName", this.StageName)
+      formData.append("Description", this.Description)
+      formData.append("FormatId", this.FormatId)
+      formData.append("EventId", this.eventId)
+      formData.append("DateStart", `${this.DateStart}T${this.TimeStart}`)
+      formData.append("DateEnd", `${this.DateClose}T${this.TimeClose}`)
+      getResourses('POST', 'api/stages', formData)
+        .then(() => {
           this.$toast.success("Этап успешно создан");
           this.$emit('close');
           this.$emit('updateStages');
         })
-        .catch((error)=>{
+        .catch((error) => {
           this.$toast.error(error.response.data);
         })
-      }
-    },
-    mounted() {
-      this.getFormatOptions()
     }
+  },
+  mounted() {
+    this.getFormatOptions()
+  }
 }
 
 </script>
 
 <style scoped>
-  /*.content .row{*/
-  /*  border: 1px #d4d3d3 solid;*/
-  /*  padding: 5px;*/
-  /*}*/
+/*.content .row{*/
+/*  border: 1px #d4d3d3 solid;*/
+/*  padding: 5px;*/
+/*}*/
 </style>

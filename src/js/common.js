@@ -14,22 +14,20 @@ var months = [
 'ноя',
 'дек'
 ];
-
+import moment from "moment";
 export function formatedDate(date) {
   let fDate = new Date(date)
-  return fDate.getDay() + " " +
-    months[fDate.getMonth()] + " "
-    + fDate.getFullYear();
+  return moment(fDate).format('DD.MM.YYYY')
 }
 
 export function formatedShortDate(date) {
   let fDate = new Date(date)
-  return fDate.getDay() + " " + months[fDate.getMonth()];
+  return moment(fDate).format('DD ') + months[fDate.getMonth()];
 }
 
 export function formatedTime(date) {
-  let fDate = new Date(date)
-  return fDate.getHours() + ":" + fDate.getMinutes();
+  let fDate = moment(date)
+  return fDate.utc().format('HH:mm');
 }
 
 export function mediaLink(rawLink) {

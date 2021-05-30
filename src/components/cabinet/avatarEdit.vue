@@ -1,7 +1,7 @@
 <template>
     <b-container>
         <b-row class="justify-content-md-center">
-            <b-avatar :src="mediaLink(photoLink)" size="12rem"></b-avatar>
+            <b-avatar :src="photoLink" size="12rem"></b-avatar>
         </b-row>
         <b-row class="justify-content-md-center">
             <b-button-group>
@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import {mediaLink} from "@/js/common";
 
 export default {
     name: "avatarEdit",
@@ -23,7 +22,6 @@ export default {
     },
     data(){
         return {
-            mediaLink,
         }
     },
     computed: {

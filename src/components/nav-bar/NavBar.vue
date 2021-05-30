@@ -4,7 +4,7 @@
       <div class="loyout_cell">
         <div v-if="isAuth" class="cell">
           <div @click="showModal()">
-            <b-avatar :src="mediaLink(avatar)"></b-avatar>
+            <b-avatar :src="avatar"></b-avatar>
             <nav-bar-item
               id="username"
               class="link username"
@@ -55,7 +55,6 @@
 <script>
 import NavBarItem from "@/components/nav-bar/NavBarItem";
 import dropdownMenu from "@/components/dropdownMenu";
-import {mediaLink} from '@/js/common';
 import {mapGetters} from "vuex";
 
 export default {
@@ -65,7 +64,6 @@ export default {
     return {
       showMenu: false,
       ddMenu: {},
-      mediaLink,
     }
   },
   computed: {
