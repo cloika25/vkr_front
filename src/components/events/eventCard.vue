@@ -43,7 +43,7 @@ export default {
       if (this.item.PhotoPreview != null) {
         url = 'url(' + this.item.PhotoPreview + ')'
       } else {
-        url = 'url(' + base_url + 'media/events/default.jpg)'
+        url = 'url(' + base_url + '/events/default.jpg)'
       }
       return url
     },

@@ -4,7 +4,7 @@
   "private": true,
   "main": "./src/main.js",
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "start": "vue-cli-service serve",
     "build": "webpack --mode=development vue-cli-service build",
     "lint": "vue-cli-service lint"
   },

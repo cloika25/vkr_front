@@ -87,12 +87,13 @@ export default {
   methods: {
     createEvent() {
       let body = {
-        AuthorUserId: this.$store.state.id,
+        AuthorUserId: this.$store.state.auth.id,
         FullName: this.name_event,
         DateStart: new Date(this.date_start),
         DateClose: new Date(this.date_close),
         Description: this.description,
       }
+      console.log('body for create', body)
       this.$store.dispatch('createEvent', body)
         .then(() => {
           this.$router.push({name: 'myEvents'})
