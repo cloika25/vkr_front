@@ -2123,7 +2123,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _nod
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"base_url\", function() { return base_url; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"media_dir\", function() { return media_dir; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"base_url_media\", function() { return base_url_media; });\nvar base_url = \"http://localhost:8000/\";\nvar media_dir = \"media/\";\nvar base_url_media = base_url + media_dir;\n\n//# sourceURL=webpack:///./src/config/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"base_url\", function() { return base_url; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"media_dir\", function() { return media_dir; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"base_url_media\", function() { return base_url_media; });\nvar base_url = \"https://vkrback.herokuapp.com/\";\nvar media_dir = \"media/\";\nvar base_url_media = base_url + media_dir;\n\n//# sourceURL=webpack:///./src/config/index.js?");
 
 /***/ }),
 
