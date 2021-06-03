@@ -5,7 +5,7 @@
   "main": "./src/main.js",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "webpack --mode=development vue-cli-service build",
+    "build": "vue-cli-service build webpack --mode=development",
     "lint": "vue-cli-service lint",
     "start": "node server.js"
   },
