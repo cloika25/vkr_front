@@ -61,7 +61,6 @@
           </div>
         </b-col>
         <b-col>
-          {{ user }}
         </b-col>
       </b-row>
       <b-row>

@@ -26,7 +26,7 @@ export default {
     },
     computed: {
         hasAvatar(){
-            return this.$store.state.photo == null? false : true;
+            return this.$store.state.auth.photo == null? false : true;
         }
     },
     methods: {
